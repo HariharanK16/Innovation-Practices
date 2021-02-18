@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:supplychaintracker/screens/addproduct.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,21 @@ class Home extends StatelessWidget {
               },
             ),
           ],
+        ),
+        body: Center(
+          child: Ink(
+            decoration: const ShapeDecoration(
+              color: Colors.lightBlue,
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+                icon: Icon(Icons.add_shopping_cart),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Addproduct()));
+                }),
+          ),
         ),
       ),
     );
