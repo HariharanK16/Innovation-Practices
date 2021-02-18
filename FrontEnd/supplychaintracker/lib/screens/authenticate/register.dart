@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
   final _validateKey = GlobalKey<FormState>();
   //text field values
   String email = '';
+  String name = '';
   String pwd = '';
   String error = '';
   bool loading = false;
@@ -51,19 +52,19 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      FadeAnimation(
-                        1.2,
-                        Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage('assets/illustration.png'),
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-                      ),
+                      // FadeAnimation(
+                      //   1.2,
+                      //   Container(
+                      //     width: 150,
+                      //     height: 150,
+                      //     decoration: BoxDecoration(
+                      //       shape: BoxShape.circle,
+                      //       image: DecorationImage(
+                      //           image: AssetImage('assets/illustration.png'),
+                      //           fit: BoxFit.fill),
+                      //     ),
+                      //   ),
+                      // ),
                       Column(
                         children: <Widget>[
                           FadeAnimation(
@@ -87,6 +88,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Column(
                         children: <Widget>[
+                          FadeAnimation(1.2, makeInputname(label: "Name")),
                           FadeAnimation(1.2, makeInputemail(label: "Email")),
                           FadeAnimation(1.3, makeInputpwd(label: "Password")),
                         ],
@@ -112,8 +114,9 @@ class _RegisterState extends State<Register> {
                                   setState(() {
                                     loading = true;
                                   });
-                                  dynamic result = await _auth
-                                      .registerWithEmailAndPassword(email, pwd);
+                                  dynamic result =
+                                      await _auth.registerWithEmailAndPassword(
+                                          name, email, pwd);
                                   if (result == null) {
                                     setState(() {
                                       error = 'Please enter a valid email ID';
@@ -159,6 +162,38 @@ class _RegisterState extends State<Register> {
               ),
             ),
           );
+  }
+
+  Widget makeInputname({label}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        TextFormField(
+          validator: (val) => val.isEmpty ? 'Enter a name' : null,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey[400])),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey[400])),
+          ),
+          onChanged: (val) {
+            setState(() => name = val);
+          },
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
+    );
   }
 
   Widget makeInputemail({label}) {
