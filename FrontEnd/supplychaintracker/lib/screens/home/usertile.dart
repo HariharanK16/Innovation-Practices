@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:supplychaintracker/screens/home/Display.dart';
 
 class UserTile extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/services/database.dart';
 
@@ -32,7 +32,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
+  // final AuthService _auth = AuthService();
   String pname = '';
   String pdesc = '';
   String quan = '';
