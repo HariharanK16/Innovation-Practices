@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:supplychaintracker/models/Userdetailes.dart';
+import 'package:supplychaintracker/screens/home/Userlist.dart';
 
 class DatabaseService {
   final String uid;
@@ -27,12 +29,24 @@ class DatabaseService {
       'Quantity': quan,
       'Quality': qual,
       'Role': role,
-      'TimeStamp': Timestamp.now(),
+      'Timestamp': Timestamp.now().toDate(),
       'userID': uid,
     });
   }
 
-  Stream<QuerySnapshot> get accounts {
-    return account.snapshots();
+  List<Userdetailes> _userlist(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Userdetailes(
+          pname: doc.data()['ProductName'] ?? '',
+          pdesc: doc.data()['ProductDesc'] ?? '',
+          quan: doc.data()['Quantity'] ?? '',
+          qual: doc.data()['Quality'] ?? '',
+          role: doc.data()['Role'] ?? '',
+          timestamp: doc.data()['Timestamp'] ?? '');
+    }).toList();
+  }
+
+  Stream<List<Userdetailes>> get displayproduct {
+    return product.snapshots().map(_userlist);
   }
 }

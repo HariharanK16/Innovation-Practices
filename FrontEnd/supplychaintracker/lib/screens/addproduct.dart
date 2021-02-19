@@ -8,17 +8,14 @@ class Addproduct extends StatelessWidget {
   // bool loading = false;
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
-      value: DatabaseService().accounts,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('Add Product'),
-          backgroundColor: Colors.lightGreen,
-          elevation: 0.2,
-        ),
-        body: MyCustomForm(),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Add Product'),
+        backgroundColor: Colors.lightGreen,
+        elevation: 0.2,
       ),
+      body: MyCustomForm(),
     );
   }
 }
