@@ -15,11 +15,27 @@ class _UserlistState extends State<Userlist> {
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
-        return UserTile(user: users[index]);
+        return new UserTile(user: users[index]);
       },
     );
   }
 }
+
+// class Userlist extends StatefulWidget {
+//   Userlist({Key key}) : super(key: key);
+
+//   @override
+//   _UserlistState createState() => _UserlistState();
+// }
+
+// class _UserlistState extends State<Userlist> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: getProduct(),
+//     );
+//   }
+// }
 
 // class Userlist extends StatelessWidget {
 //   const Userlist({Key key}) : super(key: key);

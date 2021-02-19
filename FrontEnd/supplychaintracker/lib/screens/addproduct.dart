@@ -32,7 +32,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
+  // final AuthService _auth = AuthService();
   String pname = '';
   String pdesc = '';
   String quan = '';

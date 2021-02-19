@@ -6,8 +6,8 @@ String uid;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  //create custom user object
 
+  //create custom user object
   UserValue _userFromUser(User user) {
     return user != null ? UserValue(uid: user.uid) : null;
   }

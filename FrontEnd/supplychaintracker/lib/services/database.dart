@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/screens/home/Userlist.dart';
 
@@ -34,7 +36,7 @@ class DatabaseService {
     });
   }
 
-  List<Userdetailes> _userlist(QuerySnapshot snapshot) {
+  List<Userdetailes> _productlist(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Userdetailes(
           pname: doc.data()['ProductName'] ?? '',
@@ -46,7 +48,22 @@ class DatabaseService {
     }).toList();
   }
 
+  // Future getProduct() async {
+  //   return StreamBuilder(
+  //     stream: FirebaseFirestore.instance.collection("ProductDetail").snapshots(),
+  //     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+  //         if(!snapshot.hasData){
+  //           return Center(child: CircularProgressIndicator(),)
+  //         }
+  //     }
+  //   );
+  //   // for (int i = 0; i < querySnapshot.docs.length; i++) {
+  //   //   var a = querySnapshot.docs[i];
+  //   //   print(a.documentID);
+  //   // }
+  // }
+
   Stream<List<Userdetailes>> get displayproduct {
-    return product.snapshots().map(_userlist);
+    return product.snapshots().map(_productlist);
   }
 }
