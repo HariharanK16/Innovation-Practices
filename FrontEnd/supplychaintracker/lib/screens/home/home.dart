@@ -31,40 +31,40 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
-        // body: Userlist(),
-        body: Center(
-            child: Column(children: <Widget>[
-          Container(
-            child: Ink(
-              decoration: const ShapeDecoration(
-                color: Colors.lightBlue,
-                shape: CircleBorder(),
-              ),
-              child: IconButton(
-                  icon: Icon(Icons.disc_full),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Userlist()));
-                  }),
-            ),
-          ),
-          Container(
-            child: Ink(
-              decoration: const ShapeDecoration(
-                color: Colors.lightBlue,
-                shape: CircleBorder(),
-              ),
-              child: IconButton(
-                  icon: Icon(Icons.add_shopping_cart),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Addproduct()));
-                  }),
-            ),
-          ),
-        ])),
+        body: Userlist(),
+        // body: Center(
+        //     child: Column(children: <Widget>[
+        //   Container(
+        //     child: Ink(
+        //       decoration: const ShapeDecoration(
+        //         color: Colors.lightBlue,
+        //         shape: CircleBorder(),
+        //       ),
+        //       child: IconButton(
+        //           icon: Icon(Icons.disc_full),
+        //           color: Colors.white,
+        //           onPressed: () {
+        //             Navigator.push(context,
+        //                 MaterialPageRoute(builder: (context) => Userlist()));
+        //           }),
+        //     ),
+        //   ),
+        //   Container(
+        //     child: Ink(
+        //       decoration: const ShapeDecoration(
+        //         color: Colors.lightBlue,
+        //         shape: CircleBorder(),
+        //       ),
+        //       child: IconButton(
+        //           icon: Icon(Icons.add_shopping_cart),
+        //           color: Colors.white,
+        //           onPressed: () {
+        //             Navigator.push(context,
+        //                 MaterialPageRoute(builder: (context) => Addproduct()));
+        //           }),
+        //     ),
+        //   ),
+        // ])),
       ),
     );
   }

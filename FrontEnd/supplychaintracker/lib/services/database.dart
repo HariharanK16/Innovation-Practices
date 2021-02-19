@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-import 'package:supplychaintracker/screens/home/Userlist.dart';
 
 class DatabaseService {
   final String uid;
-
   DatabaseService({this.uid});
   //collection reference
   final CollectionReference account =
@@ -16,7 +12,7 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('ProductDetail');
 
   Future updateUserAccount(String userName, String email) async {
-    return await account.doc(uid).set({
+    return await account.doc().set({
       'userName': userName,
       'email': email,
       'userID': uid,
@@ -31,39 +27,24 @@ class DatabaseService {
       'Quantity': quan,
       'Quality': qual,
       'Role': role,
-      'Timestamp': Timestamp.now().toDate(),
+      'Timestamp': Timestamp.now().toDate,
       'userID': uid,
     });
   }
 
-  List<Userdetailes> _productlist(QuerySnapshot snapshot) {
+  List<Userdetailes> _userlist(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Userdetailes(
-          pname: doc.data()['ProductName'] ?? '',
-          pdesc: doc.data()['ProductDesc'] ?? '',
-          quan: doc.data()['Quantity'] ?? '',
-          qual: doc.data()['Quality'] ?? '',
-          role: doc.data()['Role'] ?? '',
-          timestamp: doc.data()['Timestamp'] ?? '');
+        pname: doc.data()['ProductName'] ?? '',
+        pdesc: doc.data()['ProductDesc'] ?? '',
+        quan: doc.data()['Quantity'] ?? '',
+        qual: doc.data()['Quality'] ?? '',
+        role: doc.data()['Role'] ?? '',
+      );
     }).toList();
   }
 
-  // Future getProduct() async {
-  //   return StreamBuilder(
-  //     stream: FirebaseFirestore.instance.collection("ProductDetail").snapshots(),
-  //     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-  //         if(!snapshot.hasData){
-  //           return Center(child: CircularProgressIndicator(),)
-  //         }
-  //     }
-  //   );
-  //   // for (int i = 0; i < querySnapshot.docs.length; i++) {
-  //   //   var a = querySnapshot.docs[i];
-  //   //   print(a.documentID);
-  //   // }
-  // }
-
   Stream<List<Userdetailes>> get displayproduct {
-    return product.snapshots().map(_productlist);
+    return product.snapshots().map(_userlist);
   }
 }
