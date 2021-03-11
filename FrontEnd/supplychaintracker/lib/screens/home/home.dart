@@ -1,6 +1,6 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
-// import 'package:supplychaintracker/screens/addproduct.dart';
+import 'package:supplychaintracker/screens/addproduct.dart';
 import 'package:supplychaintracker/screens/home/Userlist.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,10 @@ class Home extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.lightGreen,
         appBar: AppBar(
-          title: Text('Supply Chain Tracker'),
+          title: Text(
+            'FROUTE',
+            style: TextStyle(color: Colors.black54),
+          ),
           backgroundColor: Colors.white,
           elevation: 0.2,
           actions: <Widget>[
@@ -30,40 +33,40 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
-        body: Userlist(),
-        // body: Center(
-        //     child: Column(children: <Widget>[
-        //   Container(
-        //     child: Ink(
-        //       decoration: const ShapeDecoration(
-        //         color: Colors.lightBlue,
-        //         shape: CircleBorder(),
-        //       ),
-        //       child: IconButton(
-        //           icon: Icon(Icons.disc_full),
-        //           color: Colors.white,
-        //           onPressed: () {
-        //             Navigator.push(context,
-        //                 MaterialPageRoute(builder: (context) => Userlist()));
-        //           }),
-        //     ),
-        //   ),
-        //   Container(
-        //     child: Ink(
-        //       decoration: const ShapeDecoration(
-        //         color: Colors.lightBlue,
-        //         shape: CircleBorder(),
-        //       ),
-        //       child: IconButton(
-        //           icon: Icon(Icons.add_shopping_cart),
-        //           color: Colors.white,
-        //           onPressed: () {
-        //             Navigator.push(context,
-        //                 MaterialPageRoute(builder: (context) => Addproduct()));
-        //           }),
-        //     ),
-        //   ),
-        // ])),
+        // body: Userlist(),
+        body: Center(
+            child: Column(children: <Widget>[
+          Container(
+            child: Ink(
+              decoration: const ShapeDecoration(
+                color: Colors.lightBlue,
+                shape: CircleBorder(),
+              ),
+              child: IconButton(
+                  icon: Icon(Icons.disc_full),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Userlist()));
+                  }),
+            ),
+          ),
+          Container(
+            child: Ink(
+              decoration: const ShapeDecoration(
+                color: Colors.lightBlue,
+                shape: CircleBorder(),
+              ),
+              child: IconButton(
+                  icon: Icon(Icons.add_shopping_cart),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Addproduct()));
+                  }),
+            ),
+          ),
+        ])),
       ),
     );
   }
