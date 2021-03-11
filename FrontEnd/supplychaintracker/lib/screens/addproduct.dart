@@ -1,8 +1,17 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/widgets.dart';
+import 'dart:io';
 // import 'package:provider/provider.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/services/database.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+String imgURL;
 
 class Addproduct extends StatelessWidget {
   // bool loading = false;
@@ -103,6 +112,19 @@ class MyCustomFormState extends State<MyCustomForm> {
               setState(() => role = val);
             },
           ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Center(
+            child: RaisedButton(
+                child: Text('Add Product Image'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Addimage()),
+                  );
+                }),
+          ),
           new Container(
             child: new Container(
                 padding: const EdgeInsets.only(left: 150.0, top: 40.0),
@@ -121,5 +143,144 @@ class MyCustomFormState extends State<MyCustomForm> {
         ],
       ),
     );
+  }
+}
+
+class Addimage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add Image"),
+      ),
+      body: ImageCapture(),
+    );
+  }
+}
+
+class ImageCapture extends StatefulWidget {
+  @override
+  _ImageCaptureState createState() => _ImageCaptureState();
+}
+
+class _ImageCaptureState extends State<ImageCapture> {
+  PickedFile _imageFile;
+  File _file;
+  final _picker = ImagePicker();
+  Future<void> _pickImage(ImageSource source) async {
+    PickedFile selected = await _picker.getImage(source: source);
+    setState(() {
+      _imageFile = selected;
+      _file = File(_imageFile.path);
+    });
+  }
+
+  Future<void> _cropImage() async {
+    File cropped = await ImageCropper.cropImage(
+      sourcePath: _imageFile.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+    );
+    setState(() {
+      _file = cropped ?? _imageFile;
+    });
+  }
+
+  void _clear() {
+    setState(() {
+      _imageFile = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_camera),
+              onPressed: () => _pickImage(ImageSource.camera),
+            ),
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: () => _pickImage(ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        children: <Widget>[
+          if (_imageFile != null) ...[
+            Image.file(_file),
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(Icons.crop),
+                  onPressed: _cropImage,
+                ),
+                FlatButton(
+                  child: Icon(Icons.refresh),
+                  onPressed: _clear,
+                ),
+              ],
+            ),
+            Uploader(file: _file),
+          ]
+        ],
+      ),
+    );
+  }
+}
+
+class Uploader extends StatefulWidget {
+  final File file;
+  Uploader({Key key, this.file}) : super(key: key);
+  @override
+  _UploaderState createState() => _UploaderState();
+}
+
+class _UploaderState extends State<Uploader> {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  // final Reference _storageRef = FirebaseStorage.instance.ref();
+  UploadTask _uploadTask;
+  Future<void> _startUpload() async {
+    final String filepath = 'productimages/' + DateTime.now().toString();
+    setState(() {
+      _uploadTask = _storage.ref().child(filepath).putFile(widget.file);
+    });
+  }
+  // Future uploadImageToFirebase(BuildContext context) async {
+  //   String filepath = 'productimages/' + DateTime.now().toString();
+  //   Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(filepath);
+  //   UploadTask uploadTask = firebaseStorageRef.putFile(widget.file);
+  //   TaskSnapshot taskSnapshot = await uploadTask.onComplete;
+  //   taskSnapshot.ref.getDownloadURL().then(
+  //         (value) => print("Done: $value"),
+  //       );
+  // }
+
+//   Future<void> _uploadFile() async {
+//    try {
+//       // final String fileName = DateFormat('yy-MM-ddTH:mm:s').format(DateTime.now()).toString() + filePath.split('/').last;
+//       final Reference storageRef = FirebaseStorage.instance.ref().child('productimages/');
+//       final UploadTask task = storageRef.putFile(widget.file);
+//       return await (await task.onComplete).ref.getDownloadURL();
+//    } catch (error) {
+//       print(error.toString());
+//       throw error.toString();
+//    }
+// }
+  @override
+  Widget build(BuildContext context) {
+    if (_uploadTask != null) {
+    } else {
+      return FlatButton.icon(
+          label: Text('Upload Image'),
+          icon: Icon(Icons.cloud_upload),
+          onPressed: () async {
+            await _startUpload();
+            Navigator.pop(context);
+          });
+    }
   }
 }
