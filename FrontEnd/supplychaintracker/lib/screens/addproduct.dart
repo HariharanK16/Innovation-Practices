@@ -117,7 +117,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           Center(
             child: RaisedButton(
-                child: Text('Add Product Image'),
+                child: Text(imgURL == '' ? 'Add product' : 'Image added'),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -133,8 +133,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       await DatabaseService(uid: uid)
-                          .addProduct(pname, pdesc, quan, qual, role);
-
+                          .addProduct(pname, pdesc, quan, qual, role, imgURL);
+                      imgURL = '';
                       Navigator.pop(context);
                     }
                   },
@@ -151,7 +151,7 @@ class Addimage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Image"),
+        title: Text('Add product'),
       ),
       body: ImageCapture(),
     );
@@ -240,15 +240,19 @@ class Uploader extends StatefulWidget {
 }
 
 class _UploaderState extends State<Uploader> {
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  // final FirebaseStorage _storage = FirebaseStorage.instance;
   // final Reference _storageRef = FirebaseStorage.instance.ref();
   UploadTask _uploadTask;
   Future<void> _startUpload() async {
     final String filepath = 'productimages/' + DateTime.now().toString();
-    setState(() {
-      _uploadTask = _storage.ref().child(filepath).putFile(widget.file);
-    });
+    Reference _storageRef = FirebaseStorage.instance.ref().child(filepath);
+    TaskSnapshot taskSnapshot = await _storageRef.putFile(widget.file);
+    // TaskSnapshot taskSnapshot = await _uploadTask.onComplete;
+    imgURL = await taskSnapshot.ref.getDownloadURL();
+    imgURL = imgURL.toString();
+    print(imgURL);
   }
+
   // Future uploadImageToFirebase(BuildContext context) async {
   //   String filepath = 'productimages/' + DateTime.now().toString();
   //   Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(filepath);
@@ -273,6 +277,10 @@ class _UploaderState extends State<Uploader> {
   @override
   Widget build(BuildContext context) {
     if (_uploadTask != null) {
+      return Container(
+        height: 40.0,
+        child: Text(imgURL),
+      );
     } else {
       return FlatButton.icon(
           label: Text('Upload Image'),

@@ -19,16 +19,17 @@ class DatabaseService {
     });
   }
 
-  Future addProduct(
-      String pname, String pdesc, String quan, String qual, String role) async {
+  Future addProduct(String pname, String pdesc, String quan, String qual,
+      String role, String imgUrl) async {
     return await product.doc().set({
       'ProductName': pname,
       'ProductDesc': pdesc,
       'Quantity': quan,
       'Quality': qual,
       'Role': role,
-      'Timestamp': Timestamp.now().toDate,
+      'Timestamp': Timestamp.now().toDate(),
       'userID': uid,
+      'imgURL': imgUrl,
     });
   }
 
@@ -40,6 +41,7 @@ class DatabaseService {
         quan: doc.data()['Quantity'] ?? '',
         qual: doc.data()['Quality'] ?? '',
         role: doc.data()['Role'] ?? '',
+        // imgurl: doc.data()['imgUrl']??'',
       );
     }).toList();
   }
