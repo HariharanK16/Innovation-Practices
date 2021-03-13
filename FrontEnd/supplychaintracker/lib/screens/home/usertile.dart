@@ -4,8 +4,8 @@ import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/screens/home/Display.dart';
 
 class UserTile extends StatelessWidget {
-  @override
   final Userdetailes user;
+  @override
   UserTile({this.user});
   Widget build(BuildContext context) {
     return Container(

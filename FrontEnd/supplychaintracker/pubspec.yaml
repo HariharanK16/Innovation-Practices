@@ -42,6 +42,10 @@ dependencies:
   # firebase_core: ^0.4.0+9
   image_cropper: ^1.0.2
   image_picker: ^0.6.0+17
+  qr_flutter: ^3.2.0
+  hash: ^1.0.3
+  crypto: ^2.1.5
+  flutter_barcode_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:

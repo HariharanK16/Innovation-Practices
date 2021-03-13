@@ -41,7 +41,7 @@ class DatabaseService {
         quan: doc.data()['Quantity'] ?? '',
         qual: doc.data()['Quality'] ?? '',
         role: doc.data()['Role'] ?? '',
-        // imgurl: doc.data()['imgUrl']??'',
+        imgurl: doc.data()['imgURL'] ?? '',
       );
     }).toList();
   }

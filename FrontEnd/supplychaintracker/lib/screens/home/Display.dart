@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/services/auth.dart';
 
+import 'package:supplychaintracker/screens/home/Scanner.dart';
+
 class Display extends StatelessWidget {
   final AuthService _auth = AuthService();
   final Userdetailes user;
   Display({this.user});
   @override
   Widget build(BuildContext context) {
+    print('abcd ${user.imgurl}');
+
     return Scaffold(
       backgroundColor: Colors.lightGreen,
       appBar: AppBar(
@@ -47,8 +51,10 @@ class Display extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'http://images.unsplash.com/photo-1567306226416-28f0efdc88ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjA3fDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080'),
+                        image: user.imgurl != ''
+                            ? NetworkImage('${user.imgurl}')
+                            : NetworkImage(
+                                'https://cdn.dribbble.com/users/2066835/screenshots/11186147/media/616bc1e9a6ff48544b2342e5a6b85d01.jpg?compress=1&resize=400x300'),
                         fit: BoxFit.fill),
                   ),
                 ),
@@ -87,6 +93,15 @@ class Display extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.qr_code),
+        label: Text('QR CODE'),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Scan(detail: user)));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

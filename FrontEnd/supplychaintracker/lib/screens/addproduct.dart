@@ -1,5 +1,5 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
 import 'dart:io';
@@ -9,9 +9,9 @@ import 'package:supplychaintracker/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
-String imgURL;
+String imgURL = '';
 
 class Addproduct extends StatelessWidget {
   // bool loading = false;
@@ -117,7 +117,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           Center(
             child: RaisedButton(
-                child: Text(imgURL == '' ? 'Add product' : 'Image added'),
+                child: Text(imgURL == '' ? 'Add product image' : 'Image added'),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -171,7 +171,9 @@ class _ImageCaptureState extends State<ImageCapture> {
     PickedFile selected = await _picker.getImage(source: source);
     setState(() {
       _imageFile = selected;
-      _file = File(_imageFile.path);
+      if (_imageFile != null) {
+        _file = File(_imageFile.path);
+      }
     });
   }
 
