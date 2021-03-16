@@ -29,6 +29,16 @@ class AuthService {
     }
   }
 
+  String userDetails() {
+    try {
+      User user = _auth.currentUser;
+      return user.uid;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   //sigin in with email & password
   Future signInWithEmailAndPassword(String email, String pwd) async {
     try {

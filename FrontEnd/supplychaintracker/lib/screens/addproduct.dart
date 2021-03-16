@@ -40,6 +40,7 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+  String dropdownValue = 'KG';
   final _formKey = GlobalKey<FormState>();
   // final AuthService _auth = AuthService();
   String pname = '';
@@ -47,6 +48,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String quan = '';
   String qual = '';
   String role = '';
+  String quanT = '';
   String error = '';
 
   @override
@@ -57,60 +59,112 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextFormField(
-            validator: (val) => val.isEmpty ? 'Enter a product name' : null,
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.shopping_basket),
-              hintText: 'Enter product name',
-              labelText: 'Product Name',
+          Container(
+            width: 350.0,
+            padding: EdgeInsets.only(top: 3, left: 3),
+            child: TextFormField(
+              validator: (val) => val.isEmpty ? 'Enter a product name' : null,
+              decoration: const InputDecoration(
+                icon: const Icon(Icons.shopping_basket),
+                hintText: 'Enter product name',
+                labelText: 'Product Name',
+              ),
+              onChanged: (val) {
+                setState(() => pname = val);
+              },
             ),
-            onChanged: (val) {
-              setState(() => pname = val);
-            },
           ),
-          TextFormField(
-            validator: (val) => val.isEmpty ? 'Enter description' : null,
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.description),
-              hintText: 'Enter product description',
-              labelText: 'Product Description',
-            ),
-            onChanged: (val) {
-              setState(() => pdesc = val);
-            },
+          SizedBox(
+            height: 20.0,
           ),
-          TextFormField(
-            validator: (val) => val.isEmpty ? 'Quantity must' : null,
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.line_weight),
-              hintText: 'Enter product quantity in kilograms',
-              labelText: 'Quantity',
+          Container(
+            padding: EdgeInsets.only(top: 3, left: 3),
+            child: TextFormField(
+              validator: (val) => val.isEmpty ? 'Enter description' : null,
+              decoration: const InputDecoration(
+                icon: const Icon(Icons.description),
+                hintText: 'Enter product description',
+                labelText: 'Product Description',
+              ),
+              onChanged: (val) {
+                setState(() => pdesc = val);
+              },
             ),
-            onChanged: (val) {
-              setState(() => quan = val);
-            },
           ),
-          TextFormField(
-            validator: (val) => val.isEmpty ? 'Enter quality grade' : null,
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.high_quality),
-              hintText: 'Enter Quality check details',
-              labelText: 'Quality',
-            ),
-            onChanged: (val) {
-              setState(() => qual = val);
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                width: 250.0,
+                child: TextFormField(
+                  validator: (val) => val.isEmpty ? 'Quantity must' : null,
+                  decoration: const InputDecoration(
+                    icon: const Icon(Icons.line_weight),
+                    hintText: 'Enter product quantity in kilograms',
+                    labelText: 'Quantity',
+                  ),
+                  onChanged: (val) {
+                    setState(() => quan = val);
+                  },
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.lightGreen),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.lightGreenAccent,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>['KG', 'Gram', 'Litre', 'number']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
-          TextFormField(
-            validator: (val) => val.isEmpty ? 'Enter your role' : null,
-            decoration: const InputDecoration(
-              icon: const Icon(Icons.perm_identity),
-              hintText: 'Enter your role eg:"Farmer"',
-              labelText: 'Role',
+          Container(
+            padding: EdgeInsets.only(top: 3, left: 3),
+            child: TextFormField(
+              validator: (val) => val.isEmpty ? 'Enter quality grade' : null,
+              decoration: const InputDecoration(
+                icon: const Icon(Icons.high_quality),
+                hintText: 'Enter Quality check details',
+                labelText: 'Quality',
+              ),
+              onChanged: (val) {
+                setState(() => qual = val);
+              },
             ),
-            onChanged: (val) {
-              setState(() => role = val);
-            },
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 3, left: 3),
+            child: TextFormField(
+              validator: (val) => val.isEmpty ? 'Enter your role' : null,
+              decoration: const InputDecoration(
+                icon: const Icon(Icons.perm_identity),
+                hintText: 'Enter your role eg:"Farmer"',
+                labelText: 'Role',
+              ),
+              onChanged: (val) {
+                setState(() => role = val);
+              },
+            ),
           ),
           SizedBox(
             height: 20.0,

@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:supplychaintracker/screens/home/userpage.dart';
+import 'package:supplychaintracker/screens/home/userpage.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
@@ -79,9 +79,12 @@ class _ScanState extends State<Scan> {
       if (!mounted) return;
       setState(() {
         this.qr = qr;
-        return qr;
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => Userpage(qrs: qr)));
+        // return qr;
         // print("This is qr $qr");
       });
+      // print("This is qr $qr");
     } on PlatformException {
       qr = "Sorry Some error has occured";
     }
