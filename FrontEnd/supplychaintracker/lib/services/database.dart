@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
+import 'package:supplychaintracker/services/auth.dart';
 
 class DatabaseService {
   final String uid;
@@ -11,6 +12,8 @@ class DatabaseService {
   final CollectionReference product =
       FirebaseFirestore.instance.collection('ProductDetail');
 
+  final String userID = AuthService().userDetails().toString();
+
   Future updateUserAccount(String userName, String email) async {
     return await account.doc().set({
       'userName': userName,
@@ -21,6 +24,7 @@ class DatabaseService {
 
   Future addProduct(String pname, String pdesc, String quan, String qual,
       String role, String imgUrl) async {
+    print(userID);
     return await product.doc().set({
       'ProductName': pname,
       'ProductDesc': pdesc,
