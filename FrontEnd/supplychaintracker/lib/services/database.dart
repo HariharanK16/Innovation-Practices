@@ -29,14 +29,20 @@ class DatabaseService {
     });
   }
 
+  Future<String> getUserName(String bn) async {
+    return bn;
+  }
+
   Future addProduct(String pname, String pdesc, String quan, String quant,
       String qual, String imgUrl) async {
-    // print(userID);
     String buyerName = '';
-
     account.doc(userID).snapshots().listen((event) {
-      buyerName = event.get("userName");
+      buyerName = event.get('userName');
     });
+    await Future.delayed(Duration(seconds: 1));
+    print(buyerName);
+
+    // print(buyerName);
     DateTime time = Timestamp.now().toDate();
     var val = (pname + buyerName + userID + pdesc + qual + time.toString());
     var bytes = utf8.encode(val);
@@ -45,11 +51,11 @@ class DatabaseService {
     return await product.doc().set({
       'ProductName': pname,
       'ProductDesc': pdesc,
-      'Quantity': int.parse(quan),
+      'Quantity': quan,
       'Quality': qual,
       'QuantityType': quant,
       'prevHash': null,
-      'currentHash': encode,
+      'currentHash': encode.toString(),
       'sellFlag': true,
       'Timestamp': time,
       'buyerID': userID,

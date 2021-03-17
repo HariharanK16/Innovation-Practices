@@ -8,6 +8,7 @@ import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:supplychaintracker/screens/home/usertile.dart';
+import 'package:supplychaintracker/shared/loading.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -78,14 +79,12 @@ class _UserlistState extends State<Userlist> {
   @override
   Widget build(BuildContext context) {
     final users = Provider.of<List<Userdetailes>>(context);
+    if (users == null) {
+      return Loading();
+    }
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
-        if (users.length == null) {
-          return Container(
-            child: Text("Loading"),
-          );
-        }
         return UserTile(user: users[index]);
       },
     );

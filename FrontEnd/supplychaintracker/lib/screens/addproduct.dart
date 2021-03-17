@@ -1,17 +1,12 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
 import 'dart:io';
-// import 'package:provider/provider.dart';
 import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
-
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:firebase_core/firebase_core.dart';
 
 String imgURL = '';
 
@@ -23,7 +18,7 @@ class Addproduct extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Add Product'),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.lightGreenAccent,
         elevation: 0.2,
       ),
       body: MyCustomForm(),
@@ -38,13 +33,9 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class. This class holds data related to the form.
 class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
   String dropdownValue = 'KG';
   final _formKey = GlobalKey<FormState>();
-  // final AuthService _auth = AuthService();
   String pname = '';
   String pdesc = '';
   String quan = '';
@@ -117,7 +108,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
                         child: Text(
-                          imgURL == '' ? 'Add product image' : 'Image added',
+                          imgURL != '' ? 'Image added' : 'Add product image',
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
@@ -574,40 +565,16 @@ class Uploader extends StatefulWidget {
 }
 
 class _UploaderState extends State<Uploader> {
-  // final FirebaseStorage _storage = FirebaseStorage.instance;
-  // final Reference _storageRef = FirebaseStorage.instance.ref();
   UploadTask _uploadTask;
   Future<void> _startUpload() async {
     final String filepath = 'productimages/' + DateTime.now().toString();
     Reference _storageRef = FirebaseStorage.instance.ref().child(filepath);
     TaskSnapshot taskSnapshot = await _storageRef.putFile(widget.file);
-    // TaskSnapshot taskSnapshot = await _uploadTask.onComplete;
     imgURL = await taskSnapshot.ref.getDownloadURL();
     imgURL = imgURL.toString();
     print(imgURL);
   }
 
-  // Future uploadImageToFirebase(BuildContext context) async {
-  //   String filepath = 'productimages/' + DateTime.now().toString();
-  //   Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(filepath);
-  //   UploadTask uploadTask = firebaseStorageRef.putFile(widget.file);
-  //   TaskSnapshot taskSnapshot = await uploadTask.onComplete;
-  //   taskSnapshot.ref.getDownloadURL().then(
-  //         (value) => print("Done: $value"),
-  //       );
-  // }
-
-//   Future<void> _uploadFile() async {
-//    try {
-//       // final String fileName = DateFormat('yy-MM-ddTH:mm:s').format(DateTime.now()).toString() + filePath.split('/').last;
-//       final Reference storageRef = FirebaseStorage.instance.ref().child('productimages/');
-//       final UploadTask task = storageRef.putFile(widget.file);
-//       return await (await task.onComplete).ref.getDownloadURL();
-//    } catch (error) {
-//       print(error.toString());
-//       throw error.toString();
-//    }
-// }
   @override
   Widget build(BuildContext context) {
     if (_uploadTask != null) {

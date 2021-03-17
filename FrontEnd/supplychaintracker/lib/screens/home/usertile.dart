@@ -10,31 +10,31 @@ class UserTile extends StatelessWidget {
   @override
   UserTile({this.user});
   Widget build(BuildContext context) {
-    if (user.buyerID == id) {
-      return Container(
-        child: FlatButton(
-            padding: EdgeInsets.only(top: 8.0),
-            child: Card(
-              margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: IconButton(
-                      icon: Icon(Icons.person, color: Colors.white),
-                      onPressed: () {}),
-                  radius: 25,
-                  backgroundColor: Colors.black,
-                ),
-                title: Text(user.pname),
-                subtitle: Text('I am a ${user.pname}'),
+    // if (user.buyerID == id) {
+    return Container(
+      child: FlatButton(
+          padding: EdgeInsets.only(top: 8.0),
+          child: Card(
+            margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+            child: ListTile(
+              leading: CircleAvatar(
+                child: IconButton(
+                    icon: Icon(Icons.person, color: Colors.white),
+                    onPressed: () {}),
+                radius: 25,
+                backgroundColor: Colors.black,
               ),
+              title: Text(user.pname),
+              subtitle: Text('I am a ${user.pname}'),
             ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Display(user: user)));
-            }),
-      );
-    } else {
-      return Container();
-    }
+          ),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Display(user: user)));
+          }),
+    );
+    // } else {
+    //   return Container();
+    // }
   }
 }
