@@ -3,9 +3,16 @@ class Userdetailes {
   final String pdesc;
   final String quan;
   final String qual;
-  final String role;
+  final String quant;
+  final String buyerID;
   final String imgurl;
 
   Userdetailes(
-      {this.pname, this.pdesc, this.quan, this.qual, this.role, this.imgurl});
+      {this.pname,
+      this.pdesc,
+      this.quan,
+      this.qual,
+      this.quant,
+      this.imgurl,
+      this.buyerID});
 }

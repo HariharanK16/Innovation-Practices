@@ -16,7 +16,7 @@ class Display extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.lightGreen,
       appBar: AppBar(
-        title: Text('Supply Chain Tracker'),
+        title: Text('Froute'),
         backgroundColor: Colors.white,
         elevation: 0.2,
         actions: <Widget>[

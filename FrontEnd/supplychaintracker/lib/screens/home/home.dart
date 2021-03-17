@@ -81,6 +81,11 @@ class _UserlistState extends State<Userlist> {
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
+        if (users.length == null) {
+          return Container(
+            child: Text("Loading"),
+          );
+        }
         return UserTile(user: users[index]);
       },
     );
