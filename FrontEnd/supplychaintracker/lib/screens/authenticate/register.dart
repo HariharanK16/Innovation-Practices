@@ -21,6 +21,7 @@ class _RegisterState extends State<Register> {
   String error = '';
   String city = "";
   String role = "";
+  String phn = '';
   bool loading = false;
   @override
   Widget build(BuildContext context) {
@@ -95,6 +96,7 @@ class _RegisterState extends State<Register> {
                             FadeAnimation(1.2, makeInputname(label: "Name")),
                             FadeAnimation(1.2, makeInputemail(label: "Email")),
                             FadeAnimation(1.3, makeInputpwd(label: "Password")),
+                            FadeAnimation(1.3, makeInputphn(label: "Phone no")),
                             FadeAnimation(1.4, makeInputrole(label: "Role")),
                             FadeAnimation(1.4, makeInputcity(label: "City")),
                           ],
@@ -122,7 +124,7 @@ class _RegisterState extends State<Register> {
                                     });
                                     dynamic result = await _auth
                                         .registerWithEmailAndPassword(
-                                            name, email, pwd, role, city);
+                                            name, email, pwd, role, city, phn);
                                     if (result == null) {
                                       setState(() {
                                         error = 'Please enter a valid email ID';
@@ -195,6 +197,38 @@ class _RegisterState extends State<Register> {
           ),
           onChanged: (val) {
             setState(() => name = val);
+          },
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
+    );
+  }
+
+  Widget makeInputphn({label}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        TextFormField(
+          validator: (val) => val.isEmpty ? 'Enter your phone no' : null,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey[400])),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey[400])),
+          ),
+          onChanged: (val) {
+            setState(() => phn = val);
           },
         ),
         SizedBox(

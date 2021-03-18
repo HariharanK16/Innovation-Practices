@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supplychaintracker/models/user.dart';
 import 'package:supplychaintracker/services/database.dart';
@@ -56,7 +56,7 @@ class AuthService {
 
   //register with email & password
   Future registerWithEmailAndPassword(String userName, String email, String pwd,
-      String role, String city) async {
+      String role, String city, String phn) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: pwd);
@@ -65,7 +65,7 @@ class AuthService {
       //     .updateUserData("", "", "", 0, "", "", 0, "", null, "");
       // uid = user.uid;
       await DatabaseService(uid: user.uid)
-          .updateUserAccount(userName, email, role, city);
+          .updateUserAccount(userName, email, role, city, phn);
       return _userFromUser(user);
     } catch (e) {
       print(e.toString());

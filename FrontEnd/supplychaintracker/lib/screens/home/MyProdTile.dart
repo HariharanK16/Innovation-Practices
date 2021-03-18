@@ -4,20 +4,18 @@ import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/screens/home/Display.dart';
 import 'package:supplychaintracker/services/auth.dart';
 
-class UserTile extends StatelessWidget {
+class MyProdTile extends StatelessWidget {
   final Userdetailes user;
   final String id = AuthService().userDetails();
+  MyProdTile({this.user});
   @override
-  UserTile({this.user});
   Widget build(BuildContext context) {
-    if (user.buyerID != id) {
-      // print(user.buyerName + " ");
+    if (user.buyerID == id) {
       return Container(
         child: FlatButton(
             padding: EdgeInsets.only(top: 8.0),
             child: Container(
               height: 650,
-              // width: 300,
               child: Card(
                 child: Column(
                   children: <Widget>[
@@ -67,10 +65,7 @@ class UserTile extends StatelessWidget {
             }),
       );
     } else {
-      return Container(
-        height: 0,
-        width: 0,
-      );
+      return Container();
     }
   }
 }

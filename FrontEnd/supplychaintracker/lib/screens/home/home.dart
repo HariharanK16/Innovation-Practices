@@ -2,6 +2,8 @@
 // import 'package:flutter/foundation.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:supplychaintracker/screens/Viewproducts.dart';
+import 'package:supplychaintracker/screens/myProduct.dart';
 // import 'package:supplychaintracker/screens/addproduct.dart';
 // import 'package:supplychaintracker/screens/home/Userlist.dart';
 import 'package:supplychaintracker/services/auth.dart';
@@ -19,7 +21,6 @@ import 'package:supplychaintracker/shared/loading.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
-  // bool loading = false;
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<Userdetailes>>.value(
@@ -95,8 +96,7 @@ class Home extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.of(context).pop();
-                    // Navigator.push(context,
-                    //     new MaterialPageRoute(builder: (context) => AddProd()));
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Addproduct()));
                   },
@@ -112,14 +112,39 @@ class Home extends StatelessWidget {
                           size: 40.0,
                         ),
                         label: Text(
-                          "View Product",
+                          "View all Products",
                           style: TextStyle(fontSize: 15.0, color: Colors.black),
                         )),
                   ),
                   onTap: () {
-                    // Navigator.of(context).pop();
-                    // Navigator.push(context,
-                    //       new MaterialPageRoute(builder: (context) => ViewProd()));
+                    Navigator.of(context).pop();
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewProducts()));
+                  },
+                ),
+                ListTile(
+                  title: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FlatButton.icon(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.view_list,
+                          color: Colors.grey[700],
+                          size: 40.0,
+                        ),
+                        label: Text(
+                          "My Products",
+                          style: TextStyle(fontSize: 15.0, color: Colors.black),
+                        )),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyProduct()));
                   },
                 ),
                 ListTile(
@@ -146,7 +171,7 @@ class Home extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: 340.0,
+                  height: 300.0,
                 ),
                 ListTile(
                   title: Align(
@@ -172,6 +197,15 @@ class Home extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
+          // child: Container(
+          //   child: Column(
+          //     children: <Widget>[
+          //       Container(
+          //         child: Userlist(),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -273,84 +307,44 @@ class Home extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      color: Color(0xFFddffc8),
-                      child: Text(
-                        "Your Products",
-                        style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
-                      ),
-                    ),
-                    // SingleChildScrollView(
-                    //   child: Container(
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Expanded(
-                    //           child: Container(
-                    //             child: Userlist(),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //   children: [
+                //     Container(
+                //       padding: EdgeInsets.all(10),
+                //       width: MediaQuery.of(context).size.width,
+                //       height: 60,
+                //       color: Color(0xFFddffc8),
+                //       child: Text(
+                //         "Your Products",
+                //         style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+                //       ),
+                //     ),
 
-                // backgroundColor: Colors.white,
-                // elevation: 0.2,
-                // actions: <Widget>[
-                //   FlatButton.icon(
-                //     icon: Icon(Icons.person),
-                //     label: Text('Sign Out'),
-                //     onPressed: () async {
-                //       await _auth.signOut();
-                //     },
-                // ),
+                //     // SingleChildScrollView(
+                //     //   child: Container(
+                //     //     child: Column(
+                //     //       children: <Widget>[
+                //     //         Expanded(
+                //     //           child: Container(
+                //     //             child: Userlist(),
+                //     //           ),
+                //     //         ),
+                //     //       ],
+                //     //     ),
+                //     //   ),
+                //     // ),
                 //   ],
                 // ),
-                // body: Container(
+                // Container(
                 //   child: Column(
-                //     children: <Widget>[
-                //       Expanded(
-                //         child: Container(
-                //           child: Userlist(),
-                //         ),
-                //       ),
+                //     children: [
                 //       Container(
-                //         child: Ink(
-                //           decoration: const ShapeDecoration(
-                //             color: Colors.lightBlue,
-                //             shape: CircleBorder(),
-                //           ),
-                //           child: IconButton(
-                //               icon: Icon(Icons.add_shopping_cart),
-                //               color: Colors.white,
-                //               onPressed: () {
-                //                 Navigator.push(
-                //                     context,
-                //                     MaterialPageRoute(
-                //                         builder: (context) => Addproduct()));
-                //               }),
-                //         ),
+                //         child: Userlist(),
                 //       ),
                 //     ],
                 //   ),
-                // ),
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Userlist(),
-                      ),
-                    ],
-                  ),
-                )
+                // )
               ]),
         ),
       ),
@@ -377,11 +371,5 @@ class _UserlistState extends State<Userlist> {
             children: List.generate(users.length, (index) {
               return UserTile(user: users[index]);
             })));
-    // return ListView.builder(
-    //   itemCount: users.length,
-    //   itemBuilder: (context, index) {
-    //     return UserTile(user: users[index]);
-    //   },
-    // );
   }
 }

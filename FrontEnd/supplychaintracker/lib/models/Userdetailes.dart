@@ -7,6 +7,7 @@ class Userdetailes {
   final String buyerID;
   final String imgurl;
   final String buyerName;
+  final String buyerPhone;
 
   Userdetailes(
       {this.pname,
@@ -16,5 +17,6 @@ class Userdetailes {
       this.quant,
       this.imgurl,
       this.buyerID,
-      this.buyerName});
+      this.buyerName,
+      this.buyerPhone});
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:supplychaintracker/models/AccountDetails.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/services/auth.dart';
@@ -51,22 +52,24 @@ class DatabaseService {
     return sctracker.snapshots();
   }
 
-  Future updateUserAccount(
-      String userName, String email, String role, String city) async {
+  Future updateUserAccount(String userName, String email, String role,
+      String city, String phn) async {
     return await account.doc(userID).set({
       'userName': userName,
       'email': email,
       'userID': uid,
       'role': role,
       'city': city,
+      'phn': phn,
     });
   }
 
   Future addProduct(String pname, String pdesc, String quan, String quant,
       String qual, String imgUrl) async {
-    String buyerName = '';
+    String buyerName = '', buyerPhone = '';
     account.doc(userID).snapshots().listen((event) {
       buyerName = event.get('userName');
+      buyerPhone = event.get('phn');
     });
     await Future.delayed(Duration(seconds: 1));
     print(buyerName);
@@ -93,7 +96,38 @@ class DatabaseService {
       'buyerName': buyerName,
       'amount': 0,
       'imgURL': imgUrl,
+      'buyerPhone': buyerPhone,
     });
+  }
+
+  Future<List> getAccount() async {
+    List<String> list = List<String>();
+    account.doc(userID).snapshots().listen((event) {
+      list.add(event.get('userName'));
+      list.add(event.get('email'));
+      list.add(event.get('phn'));
+      list.add(event.get('role'));
+      list.add(event.get('city'));
+    });
+    await Future.delayed(Duration(seconds: 2));
+    print(list[2]);
+    return list;
+  }
+
+  List<AccountDetails> _accountList(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return AccountDetails(
+        uname: doc.data()['userName'] ?? '',
+        umail: doc.data()['email'] ?? '',
+        uloc: doc.data()['city'] ?? '',
+        uphn: doc.data()['phn'] ?? '',
+        urole: doc.data()['role'] ?? '',
+      );
+    }).toList();
+  }
+
+  Stream<List<AccountDetails>> get accountDetails {
+    return account.snapshots().map(_accountList);
   }
 
   List<Userdetailes> _userlist(QuerySnapshot snapshot) {
@@ -107,6 +141,7 @@ class DatabaseService {
         imgurl: doc.data()['imgURL'] ?? '',
         buyerID: doc.data()['buyerID'] ?? '',
         buyerName: doc.data()['buyerName'] ?? '',
+        buyerPhone: doc.data()['buyerPhone'] ?? '',
       );
     }).toList();
   }
