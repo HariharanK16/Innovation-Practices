@@ -29,10 +29,6 @@ class DatabaseService {
     });
   }
 
-  Future<String> getUserName(String bn) async {
-    return bn;
-  }
-
   Future addProduct(String pname, String pdesc, String quan, String quant,
       String qual, String imgUrl) async {
     String buyerName = '';
@@ -77,6 +73,7 @@ class DatabaseService {
         quant: doc.data()['QuantityType'] ?? '',
         imgurl: doc.data()['imgURL'] ?? '',
         buyerID: doc.data()['buyerID'] ?? '',
+        buyerName: doc.data()['buyerName'] ?? '',
       );
     }).toList();
   }
