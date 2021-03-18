@@ -11,7 +11,7 @@ class Display extends StatelessWidget {
   Display({this.user});
   @override
   Widget build(BuildContext context) {
-    // print('abcd ${user.imgurl}');
+    print('abcd ${user.imgurl}');
 
     return Scaffold(
       backgroundColor: Colors.lightGreen,

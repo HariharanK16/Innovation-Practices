@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
@@ -17,6 +18,38 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('TChain');
 
   final String userID = AuthService().userDetails().toString();
+
+  final CollectionReference sctracker =
+      FirebaseFirestore.instance.collection('transaction');
+
+  Future<void> updateUserData(
+      String buyerID,
+      String buyerName,
+      String descofProd,
+      int productID,
+      String productName,
+      String quality,
+      int sellerID,
+      String sellerName,
+      Timestamp timestamp,
+      String transactionID) async {
+    return await sctracker.doc(uid).set({
+      'buyerID': buyerID,
+      'buyerName': buyerName,
+      'descofProd': productID,
+      'productName': productName,
+      'quality': quality,
+      'sellerID': sellerID,
+      'sellerName': sellerName,
+      'timeStamp': timestamp,
+      'transactionID': transactionID,
+    });
+  }
+
+  // get transaction stream
+  Stream<QuerySnapshot> get transacs {
+    return sctracker.snapshots();
+  }
 
   Future updateUserAccount(
       String userName, String email, String role, String city) async {
@@ -82,3 +115,4 @@ class DatabaseService {
     return product.snapshots().map(_userlist);
   }
 }
+// how about running the app?
