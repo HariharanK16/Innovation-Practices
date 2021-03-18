@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supplychaintracker/models/user.dart';
 import 'package:supplychaintracker/services/database.dart';
 
+String uid;
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   //create custom user object
@@ -28,12 +30,23 @@ class AuthService {
     }
   }
 
+  String userDetails() {
+    try {
+      User user = _auth.currentUser;
+      return user.uid;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   //sigin in with email & password
   Future signInWithEmailAndPassword(String email, String pwd) async {
     try {
       UserCredential result =
           await _auth.signInWithEmailAndPassword(email: email, password: pwd);
       User user = result.user;
+      uid = user.uid;
       return _userFromUser(user);
     } catch (e) {
       print(e.toString());
@@ -42,13 +55,17 @@ class AuthService {
   }
 
   //register with email & password
-  Future registerWithEmailAndPassword(String email, String pwd) async {
+  Future registerWithEmailAndPassword(String userName, String email, String pwd,
+      String role, String city) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: pwd);
       User user = result.user;
+      // await DatabaseService(uid: user.uid)
+      //     .updateUserData("", "", "", 0, "", "", 0, "", null, "");
+      // uid = user.uid;
       await DatabaseService(uid: user.uid)
-          .updateUserData("", "", "", 0, "", "", 0, "", null, "");
+          .updateUserAccount(userName, email, role, city);
       return _userFromUser(user);
     } catch (e) {
       print(e.toString());
