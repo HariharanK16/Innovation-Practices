@@ -82,11 +82,17 @@ class _UserlistState extends State<Userlist> {
     if (users == null) {
       return Loading();
     }
-    return ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (context, index) {
-        return UserTile(user: users[index]);
-      },
-    );
+    return Container(
+        child: GridView.count(
+            crossAxisCount: 2,
+            children: List.generate(users.length, (index) {
+              return UserTile(user: users[index]);
+            })));
+    // return ListView.builder(
+    //   itemCount: users.length,
+    //   itemBuilder: (context, index) {
+    //     return UserTile(user: users[index]);
+    //   },
+    // );
   }
 }
