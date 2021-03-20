@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 // import 'package:supplychaintracker/services/auth.dart';
-
 import 'package:supplychaintracker/screens/home/Scanner.dart';
 
 class Display extends StatelessWidget {
   // final AuthService _auth = AuthService();
   final Userdetailes user;
   Display({this.user});
+
   @override
   Widget build(BuildContext context) {
     print('abcd ${user.imgurl}');

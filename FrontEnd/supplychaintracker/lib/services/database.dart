@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:supplychaintracker/models/AccountDetails.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
@@ -22,7 +23,7 @@ class DatabaseService {
 
   final CollectionReference sctracker =
       FirebaseFirestore.instance.collection('transaction');
-
+  DocumentSnapshot user;
   Future<void> updateUserData(
       String buyerID,
       String buyerName,
@@ -64,6 +65,66 @@ class DatabaseService {
     });
   }
 
+  Future changeQuan(String quan, String nquan, String pid) async {
+    int quantity = int.parse(quan) - int.parse(nquan);
+    print(uid);
+    return await product.doc(pid).update({'Quantity': quantity.toString()});
+    // return await product.doc(uid).set({'Quantity': quantity.toString()});
+    // return await product.doc(uid).set({
+    //   'Quantity': quan,
+    // });
+  }
+
+  Future addchain(
+      String pname,
+      String pdesc,
+      String quan,
+      String quant,
+      String qual,
+      String imgUrl,
+      String sellerid,
+      String sellerhash,
+      String sellerName,
+      String amount) async {
+    DateTime time = Timestamp.now().toDate();
+    String buyerName = '', buyerPhone = '';
+    account.doc(userID).snapshots().listen((event) {
+      buyerName = event.get('userName');
+      buyerPhone = event.get('phn');
+    });
+
+    var val = (pname +
+        buyerName +
+        sellerName +
+        userID +
+        pdesc +
+        qual +
+        time.toString());
+    var bytes = utf8.encode(val);
+    var encode = sha256.convert(bytes);
+
+    await Future.delayed(Duration(seconds: 1));
+
+    return await product.doc().set({
+      'ProductName': pname,
+      'ProductDesc': pdesc,
+      'Quantity': quan,
+      'Quality': qual,
+      'QuantityType': quant,
+      'prevHash': sellerhash,
+      'currentHash': encode.toString(),
+      'sellFlag': false,
+      'Timestamp': time,
+      'buyerID': userID,
+      'sellerID': sellerid,
+      'sellerName': sellerName,
+      'buyerName': buyerName,
+      'amount': int.parse(amount),
+      'imgURL': imgUrl,
+      'buyerPhone': buyerPhone,
+    });
+  }
+
   Future addProduct(String pname, String pdesc, String quan, String quant,
       String qual, String imgUrl) async {
     String buyerName = '', buyerPhone = '';
@@ -100,20 +161,6 @@ class DatabaseService {
     });
   }
 
-  Future<List> getAccount() async {
-    List<String> list = List<String>();
-    account.doc(userID).snapshots().listen((event) {
-      list.add(event.get('userName'));
-      list.add(event.get('email'));
-      list.add(event.get('phn'));
-      list.add(event.get('role'));
-      list.add(event.get('city'));
-    });
-    await Future.delayed(Duration(seconds: 2));
-    print(list[2]);
-    return list;
-  }
-
   List<AccountDetails> _accountList(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return AccountDetails(
@@ -133,6 +180,7 @@ class DatabaseService {
   List<Userdetailes> _userlist(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Userdetailes(
+        pid: doc.id ?? '',
         pname: doc.data()['ProductName'] ?? '',
         pdesc: doc.data()['ProductDesc'] ?? '',
         quan: doc.data()['Quantity'] ?? '',
@@ -140,8 +188,11 @@ class DatabaseService {
         quant: doc.data()['QuantityType'] ?? '',
         imgurl: doc.data()['imgURL'] ?? '',
         buyerID: doc.data()['buyerID'] ?? '',
+        curhash: doc.data()['currentHash'] ?? '',
+        preHash: doc.data()['prevHash'] ?? '',
         buyerName: doc.data()['buyerName'] ?? '',
         buyerPhone: doc.data()['buyerPhone'] ?? '',
+        timeStamp: doc.data()['Timestamp'] ?? '',
       );
     }).toList();
   }
@@ -149,5 +200,13 @@ class DatabaseService {
   Stream<List<Userdetailes>> get displayproduct {
     return product.snapshots().map(_userlist);
   }
+
+  // Stream<List<Userdetailes>> get displayproducts1 {
+  //   Userdetailes users = Usertile().user;
+  //   return product
+  //       .doc(users.pname)
+  //       .collection(users.curhash)
+  //       .snapshots()
+  //       .map(_userlist);
+  // }
 }
-// how about running the app?

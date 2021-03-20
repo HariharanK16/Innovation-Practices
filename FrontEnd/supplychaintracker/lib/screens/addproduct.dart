@@ -18,7 +18,7 @@ class Addproduct extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Add Product'),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.greenAccent,
         elevation: 0.2,
       ),
       body: MyCustomForm(),
@@ -160,142 +160,6 @@ class MyCustomFormState extends State<MyCustomForm> {
         ),
       ),
     );
-
-    // Build a Form widget using the _formKey created above.
-    // return Form(
-    //   key: _formKey,
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: <Widget>[
-    //       Container(
-    //         width: 350.0,
-    //         padding: EdgeInsets.only(top: 3, left: 3),
-    //         child: TextFormField(
-    //           validator: (val) => val.isEmpty ? 'Enter a product name' : null,
-    //           decoration: const InputDecoration(
-    //             icon: const Icon(Icons.shopping_basket),
-    //             hintText: 'Enter product name',
-    //             labelText: 'Product Name',
-    //           ),
-    //           onChanged: (val) {
-    //             setState(() => pname = val);
-    //           },
-    //         ),
-    //       ),
-    //       SizedBox(
-    //         height: 20.0,
-    //       ),
-    //       Container(
-    //         padding: EdgeInsets.only(top: 3, left: 3),
-    //         child: TextFormField(
-    //           validator: (val) => val.isEmpty ? 'Enter description' : null,
-    //           decoration: const InputDecoration(
-    //             icon: const Icon(Icons.description),
-    //             hintText: 'Enter product description',
-    //             labelText: 'Product Description',
-    //           ),
-    //           onChanged: (val) {
-    //             setState(() => pdesc = val);
-    //           },
-    //         ),
-    //       ),
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //         crossAxisAlignment: CrossAxisAlignment.end,
-    //         children: <Widget>[
-    //           Container(
-    //             padding: EdgeInsets.only(top: 3, left: 3),
-    //             width: 250.0,
-    //             child: TextFormField(
-    //               validator: (val) => val.isEmpty ? 'Quantity must' : null,
-    //               decoration: const InputDecoration(
-    //                 icon: const Icon(Icons.line_weight),
-    //                 hintText: 'Enter product quantity in kilograms',
-    //                 labelText: 'Quantity',
-    //               ),
-    //               onChanged: (val) {
-    //                 setState(() => quan = val);
-    //               },
-    //             ),
-    //           ),
-    //           Container(
-    //             padding: EdgeInsets.only(top: 3, left: 3),
-    //             child: DropdownButton<String>(
-    //               value: dropdownValue,
-    //               icon: const Icon(Icons.arrow_downward),
-    //               iconSize: 24,
-    //               elevation: 16,
-    //               style: const TextStyle(color: Colors.lightGreen),
-    //               underline: Container(
-    //                 height: 2,
-    //                 color: Colors.lightGreenAccent,
-    //               ),
-    //               onChanged: (String newValue) {
-    //                 setState(() {
-    //                   dropdownValue = newValue;
-    //                 });
-    //               },
-    //               items: <String>['KG', 'Gram', 'Litre', 'number']
-    //                   .map<DropdownMenuItem<String>>((String value) {
-    //                 return DropdownMenuItem<String>(
-    //                   value: value,
-    //                   child: Text(value),
-    //                 );
-    //               }).toList(),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       Container(
-    //         padding: EdgeInsets.only(top: 3, left: 3),
-    //         child: TextFormField(
-    //           validator: (val) => val.isEmpty ? 'Enter quality grade' : null,
-    //           decoration: const InputDecoration(
-    //             icon: const Icon(Icons.high_quality),
-    //             hintText: 'Enter Quality check details',
-    //             labelText: 'Quality',
-    //           ),
-    //           onChanged: (val) {
-    //             setState(() => qual = val);
-    //           },
-    //         ),
-    //       ),
-    //       Container(
-    //         padding: EdgeInsets.only(top: 3, left: 3),
-    //         child: TextFormField(
-    //           validator: (val) => val.isEmpty ? 'Enter your role' : null,
-    //           decoration: const InputDecoration(
-    //             icon: const Icon(Icons.perm_identity),
-    //             hintText: 'Enter your role eg:"Farmer"',
-    //             labelText: 'Role',
-    //           ),
-    //           onChanged: (val) {
-    //             setState(() => role = val);
-    //           },
-    //         ),
-    //       ),
-    //       SizedBox(
-    //         height: 20.0,
-    //       ),
-
-    // new Container(
-    //   child: new Container(
-    //       padding: const EdgeInsets.only(left: 150.0, top: 40.0),
-    //       child: new RaisedButton(
-    //         child: const Text('Add Product'),
-    //         onPressed: () async {
-    //           if (_formKey.currentState.validate()) {
-    //             await DatabaseService(uid: uid)
-    //                 .addProduct(pname, pdesc, quan, qual, role, imgURL);
-    //             imgURL = '';
-    //             Navigator.pop(context);
-    //           }
-    //         },
-    //       )),
-    // ),
-    //     ],
-    //   ),
-    // );
   }
 
   Widget makeInputpname({
@@ -473,8 +337,12 @@ class Addimage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Add product'),
+        title: Text('Upload Image',
+            style: TextStyle(fontFamily: "Pompiere", fontSize: 40)),
+        backgroundColor: Colors.lightGreen,
+        elevation: 0.2,
       ),
       body: ImageCapture(),
     );
@@ -520,17 +388,46 @@ class _ImageCaptureState extends State<ImageCapture> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.photo_camera),
-              onPressed: () => _pickImage(ImageSource.camera),
-            ),
-            IconButton(
-              icon: Icon(Icons.photo_library),
-              onPressed: () => _pickImage(ImageSource.gallery),
-            ),
-          ],
+        child: Container(
+          height: 100.0,
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                color: Colors.lightGreen,
+                icon: Icon(
+                  Icons.photo_camera,
+                  size: 50.0,
+                ),
+                onPressed: () => _pickImage(ImageSource.camera),
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              Text(
+                "Camera",
+                style: TextStyle(fontFamily: "Pompiere", fontSize: 50),
+              ),
+              SizedBox(
+                child: Text("   l  ",
+                    style: TextStyle(fontFamily: "Pompiere", fontSize: 50)),
+              ),
+              IconButton(
+                color: Colors.lightGreen,
+                icon: Icon(
+                  Icons.photo_library,
+                  size: 50.0,
+                ),
+                onPressed: () => _pickImage(ImageSource.gallery),
+              ),
+              SizedBox(
+                width: 20.0,
+              ),
+              Text(
+                "Gallery",
+                style: TextStyle(fontFamily: "Pompiere", fontSize: 50),
+              ),
+            ],
+          ),
         ),
       ),
       body: ListView(
@@ -540,16 +437,48 @@ class _ImageCaptureState extends State<ImageCapture> {
             Row(
               children: <Widget>[
                 FlatButton(
-                  child: Icon(Icons.crop),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.crop,
+                      ),
+                      Text(
+                        "   Crop Image",
+                        style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+                      ),
+                    ],
+                  ),
                   onPressed: _cropImage,
+                  // child: Icon(Icons.crop,),
+                  // onPressed: _cropImage,
                 ),
                 FlatButton(
-                  child: Icon(Icons.refresh),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.refresh,
+                      ),
+                      Text(
+                        "   Clear",
+                        style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+                      ),
+                    ],
+                  ),
                   onPressed: _clear,
                 ),
               ],
             ),
             Uploader(file: _file),
+          ] else ...[
+            Container(
+              height: 300.0,
+              child: Center(
+                child: Text(
+                  "Choose a method to upload image",
+                  style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+                ),
+              ),
+            ),
           ]
         ],
       ),
