@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "647201474483",
+    "firebase_url": "https://supplychain-ip-default-rtdb.firebaseio.com",
+    "project_id": "supplychain-ip",
+    "storage_bucket": "supplychain-ip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647201474483:android:67c9f0e5312959a2042dc6",
+        "android_client_info": {
+          "package_name": "com.ipbatch13.supplychaintracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647201474483-upgfblh7k7fpbvubmj08ufk2pia6afmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2COovQFHc_suS42GBxwGRBwmj90nWSQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647201474483-upgfblh7k7fpbvubmj08ufk2pia6afmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
