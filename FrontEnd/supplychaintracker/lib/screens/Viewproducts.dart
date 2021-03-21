@@ -31,24 +31,6 @@ class _ViewProductsState extends State<ViewProducts> {
           body: Container(
             child: Userlist(),
           ),
-
-          // body: SingleChildScrollView(
-          //   child: Column(
-          //     children: [
-          //       Container(
-          //         child: Column(
-          //           children: <Widget>[
-          //             Expanded(
-          //               child: Container(
-          //                 child: Userlist(),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ));
   }
 }
@@ -69,11 +51,14 @@ class _UserlistState extends State<Userlist> {
     } else {
       int n = users.length;
       for (int i = 0; i < n; i++) {
+        // print(users[i].sellFlag);
         if (users[i].sellFlag == true) {
+          // print(users[i].sellFlag);
           list.add(users[i]);
         }
       }
     }
+    // print(list.length);
     return Container(
         child: GridView.count(
             crossAxisCount: 2,

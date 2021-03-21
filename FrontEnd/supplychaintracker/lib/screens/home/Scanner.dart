@@ -69,7 +69,9 @@ class _ScanState extends State<Scan> {
       final qr = await FlutterBarcodeScanner.scanBarcode(
           '#f21233', 'Cancel', true, ScanMode.QR);
       print(qr);
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       setState(() {
         print(qr + " hahahaha");

@@ -60,7 +60,10 @@ class _SellerListState extends State<SellerList> {
           curhash = users[i].preHash;
         }
       }
-      print(list.length);
+      if (list.length == 0) {
+        Navigator.of(context).pop();
+      }
+      // print(list.length);
     }
     return BuyForm(
       seller: list,

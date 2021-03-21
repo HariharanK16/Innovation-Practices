@@ -30,155 +30,159 @@ class _BuyFormState extends State<BuyForm> {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Container(
-            height: 750.0,
             width: double.infinity,
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  Text('Product Details',
-                      style: TextStyle(fontSize: 25, color: Colors.black)),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  for (int i = 0; i < seller.length; i++) ...[
+            child: SizedBox(
+              width: 350,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  children: [
                     SizedBox(
                       height: 20.0,
                     ),
-                    Card(
-                      elevation: 50,
-                      shadowColor: Colors.black,
-                      color: Colors.greenAccent[100],
-                      child: SizedBox(
-                        width: 300,
-                        height: 500,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              //CirclAvatar
-                              SizedBox(
-                                height: 10,
-                              ), //SizedBox
-                              Text(
-                                'From:' + seller[i].sellerName,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.green[900],
-                                  fontWeight: FontWeight.w500,
-                                ), //Textstyle
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ), //SizedBox
-                              Text(
-                                'To:' + seller[i].buyerName,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.green[900],
-                                  fontWeight: FontWeight.w500,
-                                ), //Textstyle
-                              ), //Text
-                              SizedBox(
-                                height: 10,
-                              ), //SizedBox  //SizedBox
-                              Text(
-                                'Date:' +
-                                    seller[i].timeStamp.toDate().toString(),
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.green[900],
-                                  fontWeight: FontWeight.w500,
-                                ), //Textstyle
-                              ), //SizedBox
+                    Text('Product Details',
+                        style: TextStyle(fontSize: 25, color: Colors.black)),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    for (int i = 0; i < seller.length; i++) ...[
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Card(
+                        elevation: 10,
+                        shadowColor: Colors.black,
+                        color: Colors.greenAccent[100],
+                        child: SizedBox(
+                          width: 300,
+                          height: 150,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                //CirclAvatar
+                                SizedBox(
+                                  height: 10,
+                                ), //SizedBox
+                                Text(
+                                  'Current:' + seller[i].buyerName,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.green[900],
+                                    fontWeight: FontWeight.w500,
+                                  ), //Textstyle
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ), //SizedBox
+                                Text(
+                                  seller[i].sellerName == ''
+                                      ? ''
+                                      : 'Previous:' + seller[i].sellerName,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.green[900],
+                                    fontWeight: FontWeight.w500,
+                                  ), //Textstyle
+                                ), //Text
+                                SizedBox(
+                                  height: 10,
+                                ), //SizedBox  //SizedBox
+                                Text(
+                                  'Date:' +
+                                      seller[i].timeStamp.toDate().toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.green[900],
+                                    fontWeight: FontWeight.w500,
+                                  ), //Textstyle
+                                ), //SizedBox
+                              ],
+                            ), //Column
+                          ), //Padding
+                        ), //SizedBox
+                      ),
+                    ],
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          Column(
+                            children: <Widget>[
+                              FadeAnimation(1.2,
+                                  makeInputquantity(label: "Product Quantity")),
+                              FadeAnimation(
+                                  1.2, makeInputamt(label: "Purchase amount")),
                             ],
-                          ), //Column
-                        ), //Padding
-                      ), //SizedBox
+                          ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          FadeAnimation(
+                              1.5,
+                              Container(
+                                padding: EdgeInsets.only(top: 3, left: 3),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border(
+                                      bottom: BorderSide(color: Colors.black),
+                                      top: BorderSide(color: Colors.black),
+                                      left: BorderSide(color: Colors.black),
+                                      right: BorderSide(color: Colors.black),
+                                    )),
+                                child: MaterialButton(
+                                  minWidth: double.infinity,
+                                  height: 60,
+                                  onPressed: () async {
+                                    if (_formKey.currentState.validate()) {
+                                      await DatabaseService(
+                                              uid: seller[0].buyerID)
+                                          .changeQuan(seller[0].quan, quantity,
+                                              seller[0].pid);
+                                      await DatabaseService(
+                                              uid: seller[0].buyerID)
+                                          .addchain(
+                                              seller[0].pname,
+                                              seller[0].pdesc,
+                                              quantity,
+                                              seller[0].quant,
+                                              seller[0].qual,
+                                              seller[0].imgurl,
+                                              seller[0].buyerID,
+                                              seller[0].curhash,
+                                              seller[0].buyerName,
+                                              amount);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Addchain(
+                                                  sellers: seller[0])));
+                                    }
+                                  },
+                                  color: Colors.greenAccent,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Text(
+                                    "Buy Product",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                              )),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            FadeAnimation(1.2,
-                                makeInputquantity(label: "Product Quantity")),
-                            FadeAnimation(
-                                1.2, makeInputamt(label: "Purchase amount")),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        FadeAnimation(
-                            1.5,
-                            Container(
-                              padding: EdgeInsets.only(top: 3, left: 3),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.black),
-                                    top: BorderSide(color: Colors.black),
-                                    left: BorderSide(color: Colors.black),
-                                    right: BorderSide(color: Colors.black),
-                                  )),
-                              child: MaterialButton(
-                                minWidth: double.infinity,
-                                height: 60,
-                                onPressed: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    await DatabaseService(
-                                            uid: seller[0].buyerID)
-                                        .changeQuan(seller[0].quan, quantity,
-                                            seller[0].pid);
-                                    await DatabaseService(
-                                            uid: seller[0].buyerID)
-                                        .addchain(
-                                            seller[0].pname,
-                                            seller[0].pdesc,
-                                            quantity,
-                                            seller[0].quant,
-                                            seller[0].qual,
-                                            seller[0].imgurl,
-                                            seller[0].buyerID,
-                                            seller[0].curhash,
-                                            seller[0].buyerName,
-                                            amount);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Addchain(sellers: seller[0])));
-                                  }
-                                },
-                                color: Colors.greenAccent,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Text(
-                                  "Buy Product",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 18),
-                                ),
-                              ),
-                            )),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

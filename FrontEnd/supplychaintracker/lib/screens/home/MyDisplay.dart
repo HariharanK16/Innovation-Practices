@@ -287,7 +287,7 @@ class MyDisplay extends StatelessWidget {
                 backgroundColor: Colors.orange,
                 icon: Icon(Icons.qr_code),
                 label: Text(
-                  'Scan QR',
+                  'QR Code',
                   style: TextStyle(
                       fontFamily: "Pompiere",
                       fontSize: 25.0,

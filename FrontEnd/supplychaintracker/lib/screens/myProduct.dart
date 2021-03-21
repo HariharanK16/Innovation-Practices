@@ -55,6 +55,13 @@ class _MyProdListState extends State<MyProdList> {
           list.add(users[i]);
         }
       }
+      if (list.length == 0) {
+        return Container(
+          child: Center(
+            child: Text("Nothing to display!"),
+          ),
+        );
+      }
     }
     return Container(
         child: GridView.count(
