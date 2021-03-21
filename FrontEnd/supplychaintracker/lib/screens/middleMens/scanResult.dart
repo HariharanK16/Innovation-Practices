@@ -14,7 +14,6 @@ class Userpage extends StatelessWidget {
   final String qrc;
   final Userdetailes pname;
   Userpage({this.qrc, this.pname});
-
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<Userdetailes>>.value(
@@ -59,23 +58,17 @@ class _SellerListState extends State<SellerList> {
       users.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
       int n = users.length;
       String curhash = qrs1;
-      // print(users.length);
       for (int i = 0; i < n; i++) {
-        // print(users[i].timeStamp.toDate());
         if (users[i].curhash.compareTo(curhash) == 0) {
-          // print(users[i].curhash);
           list.add(users[i]);
           curhash = users[i].preHash;
         }
       }
       print(list.length);
-      // print(qrs1);
     }
-    return ListView.builder(
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        return BuyForm(seller: list[index], qrs: qrs1);
-      },
+    return BuyForm(
+      seller: list,
+      qrs: qrs1,
     );
   }
 }

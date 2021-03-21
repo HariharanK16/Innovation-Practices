@@ -69,7 +69,7 @@ class _UserlistState extends State<Userlist> {
     } else {
       int n = users.length;
       for (int i = 0; i < n; i++) {
-        if (users[i].buyerID != id) {
+        if (users[i].sellFlag == true) {
           list.add(users[i]);
         }
       }

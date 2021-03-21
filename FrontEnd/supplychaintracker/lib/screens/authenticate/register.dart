@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
 import 'package:supplychaintracker/services/auth.dart';
-// import 'package:supplychaintracker/shared/constants.dart';
 import 'package:supplychaintracker/shared/loading.dart';
 
 class Register extends StatefulWidget {
@@ -14,7 +13,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _validateKey = GlobalKey<FormState>();
-  //text field values
   String email = '';
   String name = '';
   String pwd = '';
@@ -56,19 +54,6 @@ class _RegisterState extends State<Register> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        // FadeAnimation(
-                        //   1.2,
-                        //   Container(
-                        //     width: 150,
-                        //     height: 150,
-                        //     decoration: BoxDecoration(
-                        //       shape: BoxShape.circle,
-                        //       image: DecorationImage(
-                        //           image: AssetImage('assets/illustration.png'),
-                        //           fit: BoxFit.fill),
-                        //     ),
-                        //   ),
-                        // ),
                         Column(
                           children: <Widget>[
                             FadeAnimation(
@@ -150,10 +135,8 @@ class _RegisterState extends State<Register> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                // Text("Already have an account?"),
                                 FlatButton(
                                   onPressed: () {
-                                    /*...*/
                                     widget.toggleView();
                                   },
                                   child: Text(

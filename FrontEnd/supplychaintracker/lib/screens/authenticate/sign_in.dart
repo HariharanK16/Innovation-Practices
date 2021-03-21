@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
-// import 'package:supplychaintracker/screens/authenticate/authenticate.dart';
 import 'package:supplychaintracker/services/auth.dart';
-// import 'package:supplychaintracker/shared/constants.dart';
 import 'package:supplychaintracker/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
@@ -16,7 +14,6 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _validateKey = GlobalKey<FormState>();
   bool loading = false;
-  //text field values
   String email = '';
   String pwd = '';
   String error = '';

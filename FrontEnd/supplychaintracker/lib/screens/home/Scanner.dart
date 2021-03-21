@@ -50,15 +50,6 @@ class _ScanState extends State<Scan> {
                   size: 270.0,
                 )),
               ),
-              // RaisedButton.icon(
-              //     icon: Icon(Icons.account_box_sharp),
-              //     label: Text(""),
-              //     onPressed: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) => Userpage(qrs: qr)));
-              //     })
             ],
           ),
         ),

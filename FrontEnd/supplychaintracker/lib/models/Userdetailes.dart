@@ -14,6 +14,8 @@ class Userdetailes {
   final String pid;
   final String preHash;
   final Timestamp timeStamp;
+  final bool sellFlag;
+  final String sellerName;
   Userdetailes(
       {this.pid,
       this.pname,
@@ -27,5 +29,7 @@ class Userdetailes {
       this.preHash,
       this.buyerName,
       this.buyerPhone,
-      this.timeStamp});
+      this.timeStamp,
+      this.sellFlag,
+      this.sellerName});
 }

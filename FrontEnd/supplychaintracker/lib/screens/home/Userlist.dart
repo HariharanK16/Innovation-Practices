@@ -18,23 +18,5 @@ class _UserlistState extends State<Userlist> {
             children: List.generate(users.length, (index) {
               return UserTile(user: users[index]);
             })));
-    // return ListView.builder(
-    //   itemCount: users.length,
-    //   itemBuilder: (context, index) {
-    //     return UserTile(user: users[index]);
-    //   },
-    // );
   }
 }
-
-// class Userlist extends StatelessWidget {
-//   const Userlist({Key key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final users = Provider.of<List<Userdetailes>>(context);
-//     users.forEach.(users){
-//       print(users.)
-//     }
-//   }
-// }

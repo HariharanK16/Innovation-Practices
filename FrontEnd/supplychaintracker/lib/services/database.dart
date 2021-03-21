@@ -193,6 +193,8 @@ class DatabaseService {
         buyerName: doc.data()['buyerName'] ?? '',
         buyerPhone: doc.data()['buyerPhone'] ?? '',
         timeStamp: doc.data()['Timestamp'] ?? '',
+        sellFlag: doc.data()['sellFlag'] ?? false,
+        sellerName: doc.data()['sellerName'] ?? '',
       );
     }).toList();
   }

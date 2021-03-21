@@ -15,6 +15,54 @@ class Addchain extends StatelessWidget {
         title: Text("SubCategories"),
         centerTitle: true,
       ),
+      body: Container(
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                "Purchase Successfull",
+                style: TextStyle(
+                    fontFamily: "Pompiere",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.amberAccent),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.black),
+                      top: BorderSide(color: Colors.black),
+                      left: BorderSide(color: Colors.black),
+                      right: BorderSide(color: Colors.black),
+                    )),
+                child: MaterialButton(
+                  minWidth: double.infinity,
+                  height: 60,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  color: Colors.greenAccent,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Text(
+                    "Go Back",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       // body: new StreamBuilder<DocumentSnapshot>(
       //   stream: db.doc().snapshots(),
       //   builder: (context, snapshot) {

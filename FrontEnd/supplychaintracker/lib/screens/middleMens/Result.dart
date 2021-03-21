@@ -1,18 +1,11 @@
-// import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
-// import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/screens/middleMens/Addchain.dart';
-// import 'package:supplychaintracker/shared/loading.dart';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BuyForm extends StatefulWidget {
-  // final AuthService _auth = AuthService();
-  final Userdetailes seller;
+  final List<Userdetailes> seller;
   final String qrs;
   BuyForm({this.seller, this.qrs});
 
@@ -21,8 +14,7 @@ class BuyForm extends StatefulWidget {
 }
 
 class _BuyFormState extends State<BuyForm> {
-  // final AuthService _auth = AuthService();
-  final Userdetailes seller;
+  final List<Userdetailes> seller;
   final String qrs;
   _BuyFormState({this.seller, this.qrs});
   final _formKey = GlobalKey<FormState>();
@@ -52,35 +44,62 @@ class _BuyFormState extends State<BuyForm> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: seller.imgurl != ''
-                              ? NetworkImage('${seller.imgurl}')
-                              : NetworkImage(
-                                  'https://cdn.dribbble.com/users/2066835/screenshots/11186147/media/616bc1e9a6ff48544b2342e5a6b85d01.jpg?compress=1&resize=400x300'),
-                          fit: BoxFit.fill),
+                  for (int i = 0; i < seller.length; i++) ...[
+                    SizedBox(
+                      height: 20.0,
                     ),
-                  ),
-                  ListTile(
-                    // leading: Icon(Icons.thumb_up),
-                    title: Text('Name: ${seller.pname}'),
-                    subtitle: Text(
-                      'Quality: ${seller.qual}',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    Card(
+                      elevation: 50,
+                      shadowColor: Colors.black,
+                      color: Colors.greenAccent[100],
+                      child: SizedBox(
+                        width: 300,
+                        height: 500,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: [
+                              //CirclAvatar
+                              SizedBox(
+                                height: 10,
+                              ), //SizedBox
+                              Text(
+                                'From:' + seller[i].sellerName,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.green[900],
+                                  fontWeight: FontWeight.w500,
+                                ), //Textstyle
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ), //SizedBox
+                              Text(
+                                'To:' + seller[i].buyerName,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.green[900],
+                                  fontWeight: FontWeight.w500,
+                                ), //Textstyle
+                              ), //Text
+                              SizedBox(
+                                height: 10,
+                              ), //SizedBox  //SizedBox
+                              Text(
+                                'Date:' +
+                                    seller[i].timeStamp.toDate().toString(),
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.green[900],
+                                  fontWeight: FontWeight.w500,
+                                ), //Textstyle
+                              ), //SizedBox
+                            ],
+                          ), //Column
+                        ), //Padding
+                      ), //SizedBox
                     ),
-                  ),
-                  ListTile(
-                    // leading: Icon(Icons.thumb_up),
-                    title: Text('Description: ${seller.pdesc}'),
-                    subtitle: Text(
-                      'Quantity: ${seller.quan}',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    ),
-                  ),
+                  ],
                   Form(
                     key: _formKey,
                     child: Column(
@@ -117,26 +136,28 @@ class _BuyFormState extends State<BuyForm> {
                                 height: 60,
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
-                                    await DatabaseService(uid: seller.buyerID)
-                                        .changeQuan(
-                                            seller.quan, quantity, seller.pid);
-                                    await DatabaseService(uid: seller.buyerID)
+                                    await DatabaseService(
+                                            uid: seller[0].buyerID)
+                                        .changeQuan(seller[0].quan, quantity,
+                                            seller[0].pid);
+                                    await DatabaseService(
+                                            uid: seller[0].buyerID)
                                         .addchain(
-                                            seller.pname,
-                                            seller.pdesc,
+                                            seller[0].pname,
+                                            seller[0].pdesc,
                                             quantity,
-                                            seller.quant,
-                                            seller.qual,
-                                            seller.imgurl,
-                                            seller.buyerID,
-                                            seller.curhash,
-                                            seller.buyerName,
+                                            seller[0].quant,
+                                            seller[0].qual,
+                                            seller[0].imgurl,
+                                            seller[0].buyerID,
+                                            seller[0].curhash,
+                                            seller[0].buyerName,
                                             amount);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Addchain(sellers: seller)));
+                                                Addchain(sellers: seller[0])));
                                   }
                                 },
                                 color: Colors.greenAccent,

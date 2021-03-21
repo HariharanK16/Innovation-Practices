@@ -1,31 +1,36 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
-import 'package:supplychaintracker/models/AccountDetails.dart';
 import 'package:supplychaintracker/screens/Viewproducts.dart';
 import 'package:supplychaintracker/screens/myProduct.dart';
-// import 'package:supplychaintracker/screens/addproduct.dart';
-// import 'package:supplychaintracker/screens/home/Userlist.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/screens/navigation/transaction.dart';
 import 'package:supplychaintracker/screens/addproduct.dart';
 import 'package:provider/provider.dart';
-// import 'package:supplychaintracker/services/database.dart';
-// import 'package:provider/provider.dart';
-// import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:supplychaintracker/screens/home/usertile.dart';
-import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/shared/loading.dart';
+
+final AuthService _auth = AuthService();
+DocumentSnapshot snaps;
+
+class Demo {
+  void docsn() async {
+    await FirebaseFirestore.instance
+        .collection('accountDetails')
+        .doc(_auth.userDetails())
+        .get()
+        .then((value) {
+      snaps = value;
+      print(snaps['name']);
+    });
+  }
+}
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
-  // final AccountDetails acc = DatabaseService().getAccount();
   @override
   Widget build(BuildContext context) {
+    final userDeets = _auth.userDetails();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -196,15 +201,6 @@ class Home extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        // child: Container(
-        //   child: Column(
-        //     children: <Widget>[
-        //       Container(
-        //         child: Userlist(),
-        //       ),
-        //     ],
-        //   ),
-        // ),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -250,104 +246,83 @@ class Home extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Card(
-                    elevation: 0.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              // color: Colors.red,
-                              width:
-                                  MediaQuery.of(context).size.width * 0.5 - 4,
-                              padding: EdgeInsets.all(20),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"),
-                                radius: 65,
-                              ),
-                            ),
-                            Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                // color: Colors.yellow,
-                                width:
-                                    MediaQuery.of(context).size.width * 0.5 - 4,
-                                child: SizedBox(
-                                  child: SizedBox(
-                                    child: Text(
-                                      "Brad Holmes Kumar",
-                                      style: TextStyle(
-                                          fontFamily: "Pompiere", fontSize: 40),
+                  StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("accountDetail")
+                          .doc(userDeets)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return Card(
+                          elevation: 0.0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    // color: Colors.red,
+                                    width: MediaQuery.of(context).size.width *
+                                            0.5 -
+                                        4,
+                                    padding: EdgeInsets.all(20),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"),
+                                      radius: 65,
                                     ),
                                   ),
-                                ))
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Address : xyz"),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Contact : 9945211990"),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Role : Farmer"),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                                  Container(
+                                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                      width: MediaQuery.of(context).size.width *
+                                              0.5 -
+                                          4,
+                                      child: SizedBox(
+                                        child: SizedBox(
+                                          child: Text(
+                                            snapshot.data['userName'],
+                                            style: TextStyle(
+                                                fontFamily: "Pompiere",
+                                                fontSize: 40),
+                                          ),
+                                        ),
+                                      ))
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("CITY : "),
+                                  Text(snapshot.data['city'])
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text("CONTACT : "),
+                                  Text(snapshot.data['phn'])
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text("ROLE : "),
+                                  Text(snapshot.data['role'])
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }),
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     Container(
-              //       padding: EdgeInsets.all(10),
-              //       width: MediaQuery.of(context).size.width,
-              //       height: 60,
-              //       color: Color(0xFFddffc8),
-              //       child: Text(
-              //         "Your Products",
-              //         style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
-              //       ),
-              //     ),
-
-              //     // SingleChildScrollView(
-              //     //   child: Container(
-              //     //     child: Column(
-              //     //       children: <Widget>[
-              //     //         Expanded(
-              //     //           child: Container(
-              //     //             child: Userlist(),
-              //     //           ),
-              //     //         ),
-              //     //       ],
-              //     //     ),
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
-              // Container(
-              //   child: Column(
-              //     children: [
-              //       Container(
-              //         child: Userlist(),
-              //       ),
-              //     ],
-              //   ),
-              // )
             ]),
       ),
     );
   }
 }
-// import 'package:supplychaintracker/models/Userdetailes.dart';
 
 class Userlist extends StatefulWidget {
   @override
