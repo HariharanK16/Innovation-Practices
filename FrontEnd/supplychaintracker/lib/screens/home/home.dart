@@ -2,30 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:supplychaintracker/screens/Viewproducts.dart';
 import 'package:supplychaintracker/screens/myProduct.dart';
-// import 'package:supplychaintracker/screens/addproduct.dart';
-// import 'package:supplychaintracker/screens/home/Userlist.dart';
 import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/screens/navigation/transaction.dart';
 import 'package:supplychaintracker/screens/addproduct.dart';
 import 'package:provider/provider.dart';
-// import 'package:supplychaintracker/services/database.dart';
-// import 'package:provider/provider.dart';
-// import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:supplychaintracker/screens/home/usertile.dart';
 import 'package:supplychaintracker/services/database.dart';
 import 'package:supplychaintracker/shared/loading.dart';
 
-class Home extends StatelessWidget {
-  final AuthService _auth = AuthService();
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String ustype;
+
+  void sinitState(String userDeets) async {
+    final utype = await DatabaseService().getUserType(userDeets);
+    ustype = utype.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userDeets = _auth.userDetails();
-    final utype = DatabaseService().getUserType(userDeets);
-    String ustype = utype.toString();
-    // print("object $ustype");
+    final AuthService _auth = AuthService();
+    String userDeets = _auth.userDetails();
+    sinitState(userDeets);
+    Future.delayed(Duration(seconds: 5));
     return StreamProvider<List<Userdetailes>>.value(
       value: DatabaseService().displayproduct,
       child: Scaffold(
@@ -45,62 +49,43 @@ class Home extends StatelessWidget {
           elevation: 1.0,
         ),
         drawer: Drawer(
-          child: ColoredBox(
-            color: Color(0xFFddffc8),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  height: 70,
-                  child: DrawerHeader(
-                      padding: EdgeInsets.fromLTRB(30.0, 16.0, 16.0, 8.0),
-                      child: Text(
-                        'froute',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Pompiere",
-                            fontSize: 30,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.w800),
+            child: ColoredBox(
+          color: Color(0xFFddffc8),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                height: 70,
+                child: DrawerHeader(
+                    padding: EdgeInsets.fromLTRB(30.0, 16.0, 16.0, 8.0),
+                    child: Text(
+                      'froute',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Pompiere",
+                          fontSize: 30,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w800),
+                    )),
+              ),
+              ListTile(
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FlatButton.icon(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.account_circle,
+                        color: Colors.grey[700],
+                        size: 40.0,
+                      ),
+                      label: Text(
+                        "Profile",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
                       )),
                 ),
-                // SizedBox(
-                //   height: 30.0,
-                // ),
+                onTap: () {},
+              ),
+              if (ustype == "Farmer")
                 ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.account_circle,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "Profile",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.place,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "Track",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () {},
-                ),
-                (ListTile(
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: FlatButton.icon(
@@ -111,7 +96,7 @@ class Home extends StatelessWidget {
                           size: 40.0,
                         ),
                         label: Text(
-                          "Add Item",
+                          "Add Product",
                           style: TextStyle(fontSize: 15.0, color: Colors.black),
                         )),
                   ),
@@ -121,104 +106,99 @@ class Home extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Addproduct()));
                   },
-                )),
-                if (ustype != null && ustype.compareTo("Farmer") == 0)
-                  ListTile(
-                    title: Align(
-                      alignment: Alignment.centerLeft,
-                      child: FlatButton.icon(
-                          onPressed: null,
-                          icon: Icon(
-                            Icons.view_list,
-                            color: Colors.grey[700],
-                            size: 40.0,
-                          ),
-                          label: Text(
-                            "View all Products",
-                            style:
-                                TextStyle(fontSize: 15.0, color: Colors.black),
-                          )),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pop();
+                ),
+              ListTile(
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FlatButton.icon(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.view_list,
+                        color: Colors.grey[700],
+                        size: 40.0,
+                      ),
+                      label: Text(
+                        "View all Products",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      )),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ViewProducts()));
-                    },
-                  ),
-                ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.view_list,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "My Products",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ViewProducts()));
+                },
+              ),
+              ListTile(
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FlatButton.icon(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.view_list,
+                        color: Colors.grey[700],
+                        size: 40.0,
+                      ),
+                      label: Text(
+                        "My Products",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      )),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyProduct()));
-                  },
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyProduct()));
+                },
+              ),
+              // ListTile(
+              //   title: Align(
+              //     alignment: Alignment.centerLeft,
+              //     child: FlatButton.icon(
+              //         onPressed: null,
+              //         icon: Icon(
+              //           Icons.access_time_sharp,
+              //           color: Colors.grey[700],
+              //           size: 40.0,
+              //         ),
+              //         label: Text(
+              //           "History",
+              //           style: TextStyle(fontSize: 15.0, color: Colors.black),
+              //         )),
+              //   ),
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //     Navigator.push(
+              //         context,
+              //         new MaterialPageRoute(
+              //             builder: (context) => TransactionDis()));
+              //   },
+              // ),
+              SizedBox(
+                height: 300.0,
+              ),
+              ListTile(
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FlatButton.icon(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.grey[700],
+                        size: 40.0,
+                      ),
+                      label: Text(
+                        "Sign Out",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      )),
                 ),
-                ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.access_time_sharp,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "History",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => TransactionDis()));
-                  },
-                ),
-                SizedBox(
-                  height: 300.0,
-                ),
-                ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.logout,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "Sign Out",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () async {
-                    await _auth.signOut();
-                  },
-                ),
-              ],
-            ),
+                onTap: () async {
+                  await _auth.signOut();
+                },
+              ),
+            ],
           ),
-        ),
+        )),
         body: (userDeets == null)
             ? Loading()
             : SingleChildScrollView(
@@ -276,7 +256,8 @@ class Home extends StatelessWidget {
                                   .doc(userDeets)
                                   .snapshots(),
                               builder: (context, snapshot) {
-                                if (snapshot == null) return Loading();
+                                if (!snapshot.hasData)
+                                  return Center(child: Loading());
                                 return Card(
                                   elevation: 0.0,
                                   child: Column(
@@ -311,7 +292,7 @@ class Home extends StatelessWidget {
                                               child: SizedBox(
                                                 child: SizedBox(
                                                   child: Text(
-                                                    snapshot.data['name'],
+                                                    snapshot.data['userName'],
                                                     style: TextStyle(
                                                         fontFamily: "Pompiere",
                                                         fontSize: 40),
@@ -320,15 +301,6 @@ class Home extends StatelessWidget {
                                               ))
                                         ],
                                       ),
-                                      // Row(
-                                      //   children: [
-                                      //     Text("ADDRESS : "),
-                                      //     Text(snapshot.data['Address'])
-                                      //   ],
-                                      // ),
-                                      // SizedBox(
-                                      //   height: 5,
-                                      // ),
                                       Row(
                                         children: [
                                           Text("CITY : "),
@@ -341,7 +313,7 @@ class Home extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text("CONTACT : "),
-                                          Text(snapshot.data['phno'])
+                                          Text(snapshot.data['phn'])
                                         ],
                                       ),
                                       SizedBox(
@@ -359,51 +331,12 @@ class Home extends StatelessWidget {
                               }),
                         ],
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Container(
-                      //       padding: EdgeInsets.all(10),
-                      //       width: MediaQuery.of(context).size.width,
-                      //       height: 60,
-                      //       color: Color(0xFFddffc8),
-                      //       child: Text(
-                      //         "Your Products",
-                      //         style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
-                      //       ),
-                      //     ),
-
-                      //     // SingleChildScrollView(
-                      //     //   child: Container(
-                      //     //     child: Column(
-                      //     //       children: <Widget>[
-                      //     //         Expanded(
-                      //     //           child: Container(
-                      //     //             child: Userlist(),
-                      //     //           ),
-                      //     //         ),
-                      //     //       ],
-                      //     //     ),
-                      //     //   ),
-                      //     // ),
-                      //   ],
-                      // ),
-                      // Container(
-                      //   child: Column(
-                      //     children: [
-                      //       Container(
-                      //         child: Userlist(),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // )
                     ]),
               ),
       ),
     );
   }
 }
-// import 'package:supplychaintracker/models/Userdetailes.dart';
 
 class Userlist extends StatefulWidget {
   @override

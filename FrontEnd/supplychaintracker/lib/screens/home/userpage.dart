@@ -15,7 +15,6 @@ class Userpage extends StatelessWidget {
       ),
       body: Center(
         child: InkWell(
-            //padding: EdgeInsets.only(top: 3.0),
             child: Card(
               margin: EdgeInsets.fromLTRB(20.0, 3.0, 20.0, 10.0),
               child: ListTile(
@@ -37,10 +36,5 @@ class Userpage extends StatelessWidget {
       ),
       backgroundColor: Colors.green[400],
     );
-    // body: Center(
-    //   child: Container(
-    //     child: Text('$qrs'),
-    //   ),
-    // ),
   }
 }

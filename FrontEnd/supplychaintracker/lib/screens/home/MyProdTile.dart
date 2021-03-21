@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:supplychaintracker/screens/home/Display.dart';
+// import 'package:supplychaintracker/screens/home/Display.dart';
+import 'package:supplychaintracker/screens/home/MyDisplay.dart';
 import 'package:supplychaintracker/services/auth.dart';
 
 class MyProdTile extends StatelessWidget {
@@ -60,8 +61,10 @@ class MyProdTile extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Display(user: user)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyDisplay(user: user)));
             }),
       );
     } else {

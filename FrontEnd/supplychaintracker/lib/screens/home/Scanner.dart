@@ -2,10 +2,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:supplychaintracker/screens/home/userpage.dart';
+// import 'package:supplychaintracker/screens/home/userpage.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
+import 'package:supplychaintracker/screens/middleMens/scanResult.dart';
 
 class Scan extends StatefulWidget {
   final Userdetailes detail;
@@ -42,22 +43,13 @@ class _ScanState extends State<Scan> {
               Center(
                 child: Center(
                     child: QrImage(
-                  data: users.pname,
+                  data: users.curhash,
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.black,
                   version: QrVersions.auto,
                   size: 270.0,
                 )),
               ),
-              // RaisedButton.icon(
-              //     icon: Icon(Icons.account_box_sharp),
-              //     label: Text(""),
-              //     onPressed: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) => Userpage(qrs: qr)));
-              //     })
             ],
           ),
         ),
@@ -76,15 +68,21 @@ class _ScanState extends State<Scan> {
     try {
       final qr = await FlutterBarcodeScanner.scanBarcode(
           '#f21233', 'Cancel', true, ScanMode.QR);
-      if (!mounted) return;
+      print(qr);
+      if (!mounted) {
+        return;
+      }
+
       setState(() {
-        this.qr = qr;
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Userpage(qrs: qr)));
+        print(qr + " hahahaha");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Userpage(qrc: qr.toString(), pname: users)));
         // return qr;
         // print("This is qr $qr");
       });
-      // print("This is qr $qr");
     } on PlatformException {
       qr = "Sorry Some error has occured";
     }

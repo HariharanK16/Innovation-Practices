@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:supplychaintracker/screens/home/usertile.dart';
+import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/shared/loading.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:provider/provider.dart';
@@ -30,24 +31,6 @@ class _ViewProductsState extends State<ViewProducts> {
           body: Container(
             child: Userlist(),
           ),
-
-          // body: SingleChildScrollView(
-          //   child: Column(
-          //     children: [
-          //       Container(
-          //         child: Column(
-          //           children: <Widget>[
-          //             Expanded(
-          //               child: Container(
-          //                 child: Userlist(),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ));
   }
 }
@@ -60,15 +43,27 @@ class Userlist extends StatefulWidget {
 class _UserlistState extends State<Userlist> {
   @override
   Widget build(BuildContext context) {
+    List<Userdetailes> list = List<Userdetailes>();
     final users = Provider.of<List<Userdetailes>>(context);
+    final String id = AuthService().userDetails();
     if (users == null) {
       return Loading();
+    } else {
+      int n = users.length;
+      for (int i = 0; i < n; i++) {
+        // print(users[i].sellFlag);
+        if (users[i].sellFlag == true) {
+          // print(users[i].sellFlag);
+          list.add(users[i]);
+        }
+      }
     }
+    // print(list.length);
     return Container(
         child: GridView.count(
             crossAxisCount: 2,
-            children: List.generate(users.length, (index) {
-              return UserTile(user: users[index]);
+            children: List.generate(list.length, (index) {
+              return UserTile(user: list[index]);
             })));
   }
 }
