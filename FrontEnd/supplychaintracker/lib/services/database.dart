@@ -110,7 +110,7 @@ class DatabaseService {
       list.add(event.get('city'));
     });
     await Future.delayed(Duration(seconds: 2));
-    print(list[2]);
+    // print(list[2]);
     return list;
   }
 
