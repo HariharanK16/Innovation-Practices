@@ -19,16 +19,16 @@ class AuthService {
   }
 
   // Sign in anon
-  Future signinAnon() async {
-    try {
-      UserCredential result = await _auth.signInAnonymously();
-      User user = result.user;
-      return _userFromUser(user);
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
+  // Future signinAnon() async {
+  //   try {
+  //     UserCredential result = await _auth.signInAnonymously();
+  //     User user = result.user;
+  //     return _userFromUser(user);
+  //   } catch (e) {
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
 
   String userDetails() {
     try {
@@ -47,6 +47,8 @@ class AuthService {
           await _auth.signInWithEmailAndPassword(email: email, password: pwd);
       User user = result.user;
       uid = user.uid;
+      // final role = DatabaseService().getUserType(uid);
+      // print(role);
       return _userFromUser(user);
     } catch (e) {
       print(e.toString());

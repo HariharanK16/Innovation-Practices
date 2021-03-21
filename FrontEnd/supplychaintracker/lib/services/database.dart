@@ -52,6 +52,19 @@ class DatabaseService {
     return sctracker.snapshots();
   }
 
+  Future getUserType(String uid) async {
+    DocumentSnapshot ss;
+    await FirebaseFirestore.instance
+        .collection("accountDetail")
+        .doc(uid)
+        .get()
+        .then((value) => {ss = value});
+    // print("UserType = $ss['role']");
+    String ret = ss['role'];
+    // print("UserType = $ret");
+    return ret;
+  }
+
   Future updateUserAccount(String userName, String email, String role,
       String city, String phn) async {
     return await account.doc(userID).set({
