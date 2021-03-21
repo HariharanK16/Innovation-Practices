@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/services/database.dart';
-//import 'package:supplychaintracker/screens/home/Userlist.dart';
 import 'package:provider/provider.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:supplychaintracker/screens/middleMens/Result.dart';
 import 'package:supplychaintracker/shared/loading.dart';
-
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Userpage extends StatelessWidget {
   final String qrc;
