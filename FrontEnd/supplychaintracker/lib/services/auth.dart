@@ -25,7 +25,7 @@ class AuthService {
       User user = result.user;
       return _userFromUser(user);
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null;
     }
   }
@@ -35,7 +35,7 @@ class AuthService {
       User user = _auth.currentUser;
       return user.uid;
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null;
     }
   }
@@ -49,7 +49,7 @@ class AuthService {
       uid = user.uid;
       return _userFromUser(user);
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null;
     }
   }
@@ -68,7 +68,7 @@ class AuthService {
           .updateUserAccount(userName, email, role, city, phn);
       return _userFromUser(user);
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null;
     }
   }
@@ -78,7 +78,7 @@ class AuthService {
     try {
       return await _auth.signOut();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       return null;
     }
   }

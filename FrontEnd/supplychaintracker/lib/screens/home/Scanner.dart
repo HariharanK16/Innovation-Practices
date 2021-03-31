@@ -74,7 +74,7 @@ class _ScanState extends State<Scan> {
       }
 
       setState(() {
-        print(qr + " hahahaha");
+        // print(qr + " hahahaha");
         Navigator.push(
             context,
             MaterialPageRoute(
