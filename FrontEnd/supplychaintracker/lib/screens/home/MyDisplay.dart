@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
+// import 'package:supplychaintracker/screens/authenticate/animation/FadeAnimation.dart';
 // import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/screens/home/Scanner.dart';
 

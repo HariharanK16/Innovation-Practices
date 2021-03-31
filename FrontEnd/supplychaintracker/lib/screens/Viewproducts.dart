@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:supplychaintracker/screens/home/usertile.dart';
-import 'package:supplychaintracker/services/auth.dart';
+// import 'package:supplychaintracker/services/auth.dart';
 import 'package:supplychaintracker/shared/loading.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +45,7 @@ class _UserlistState extends State<Userlist> {
   Widget build(BuildContext context) {
     List<Userdetailes> list = List<Userdetailes>();
     final users = Provider.of<List<Userdetailes>>(context);
-    final String id = AuthService().userDetails();
+    // final String id = AuthService().userDetails();
     if (users == null) {
       return Loading();
     } else {
