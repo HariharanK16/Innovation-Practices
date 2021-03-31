@@ -53,6 +53,19 @@ class DatabaseService {
     return sctracker.snapshots();
   }
 
+  Future getUserType(String uid) async {
+    DocumentSnapshot ss;
+    await FirebaseFirestore.instance
+        .collection("accountDetail")
+        .doc(uid)
+        .get()
+        .then((value) => {ss = value});
+    // print("UserType = $ss['role']");
+    String ret = ss['role'];
+    print("UserType = $ret");
+    return ret;
+  }
+
   Future updateUserAccount(String userName, String email, String role,
       String city, String phn) async {
     return await account.doc(userID).set({
@@ -159,6 +172,20 @@ class DatabaseService {
       'imgURL': imgUrl,
       'buyerPhone': buyerPhone,
     });
+  }
+
+  Future<List> getAccount() async {
+    List<String> list = List<String>();
+    account.doc(userID).snapshots().listen((event) {
+      list.add(event.get('userName'));
+      list.add(event.get('email'));
+      list.add(event.get('phn'));
+      list.add(event.get('role'));
+      list.add(event.get('city'));
+    });
+    await Future.delayed(Duration(seconds: 2));
+    // print(list[2]);
+    return list;
   }
 
   List<AccountDetails> _accountList(QuerySnapshot snapshot) {

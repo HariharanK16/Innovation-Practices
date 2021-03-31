@@ -405,11 +405,11 @@ class _ImageCaptureState extends State<ImageCapture> {
               ),
               Text(
                 "Camera",
-                style: TextStyle(fontFamily: "Pompiere", fontSize: 50),
+                style: TextStyle(fontFamily: "Pompiere", fontSize: 25),
               ),
               SizedBox(
                 child: Text("   l  ",
-                    style: TextStyle(fontFamily: "Pompiere", fontSize: 50)),
+                    style: TextStyle(fontFamily: "Pompiere", fontSize: 25)),
               ),
               IconButton(
                 color: Colors.lightGreen,
@@ -424,7 +424,7 @@ class _ImageCaptureState extends State<ImageCapture> {
               ),
               Text(
                 "Gallery",
-                style: TextStyle(fontFamily: "Pompiere", fontSize: 50),
+                style: TextStyle(fontFamily: "Pompiere", fontSize: 25),
               ),
             ],
           ),
