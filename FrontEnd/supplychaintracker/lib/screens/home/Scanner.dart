@@ -23,7 +23,16 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Froute'),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          'QR Code',
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Pompiere",
+              fontSize: 25,
+              letterSpacing: 2,
+              fontWeight: FontWeight.w800),
+        ),
         backgroundColor: Colors.orange[400],
         centerTitle: true,
       ),
@@ -33,12 +42,16 @@ class _ScanState extends State<Scan> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Scan Result',
+                'QR Code',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white54,
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Colors.black,
+                    fontFamily: "Pompiere",
+                    fontSize: 25,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w800),
+              ),
+              SizedBox(
+                height: 10.0,
               ),
               Center(
                 child: Center(

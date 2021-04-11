@@ -16,9 +16,18 @@ class Userpage extends StatelessWidget {
       value: DatabaseService().displayproduct,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Froute'),
-          backgroundColor: Colors.orange[400],
-          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'Supply Chain Tracker',
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: "Pompiere",
+                fontSize: 25,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w800),
+          ),
+          backgroundColor: Color(0xFFddffc8),
+          elevation: 1.0,
         ),
         body: Container(
             child: Column(children: <Widget>[

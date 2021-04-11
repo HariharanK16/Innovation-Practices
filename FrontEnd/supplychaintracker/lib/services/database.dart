@@ -80,6 +80,7 @@ class DatabaseService {
 
   Future changeQuan(String quan, String nquan, String pid) async {
     int quantity = int.parse(quan) - int.parse(nquan);
+    quantity = quantity < 1 ? 0 : quantity;
     print(uid);
     return await product.doc(pid).update({'Quantity': quantity.toString()});
     // return await product.doc(uid).set({'Quantity': quantity.toString()});
@@ -98,12 +99,14 @@ class DatabaseService {
       String sellerid,
       String sellerhash,
       String sellerName,
-      String amount) async {
+      String amount,
+      String sellerRole) async {
     DateTime time = Timestamp.now().toDate();
-    String buyerName = '', buyerPhone = '';
+    String buyerName = '', buyerPhone = '', buyerRole = '';
     account.doc(userID).snapshots().listen((event) {
       buyerName = event.get('userName');
       buyerPhone = event.get('phn');
+      buyerRole = event.get('role');
     });
 
     var val = (pname +
@@ -135,15 +138,18 @@ class DatabaseService {
       'amount': int.parse(amount),
       'imgURL': imgUrl,
       'buyerPhone': buyerPhone,
+      'buyerRole': buyerRole,
+      'sellerRole': sellerRole,
     });
   }
 
   Future addProduct(String pname, String pdesc, String quan, String quant,
       String qual, String imgUrl) async {
-    String buyerName = '', buyerPhone = '';
+    String buyerName = '', buyerPhone = '', buyerRole = '';
     account.doc(userID).snapshots().listen((event) {
       buyerName = event.get('userName');
       buyerPhone = event.get('phn');
+      buyerRole = event.get('role');
     });
     await Future.delayed(Duration(seconds: 1));
     print(buyerName);
@@ -171,6 +177,8 @@ class DatabaseService {
       'amount': 0,
       'imgURL': imgUrl,
       'buyerPhone': buyerPhone,
+      'buyerRole': buyerRole,
+      'sellerRole': '',
     });
   }
 
@@ -222,6 +230,8 @@ class DatabaseService {
         timeStamp: doc.data()['Timestamp'] ?? '',
         sellFlag: doc.data()['sellFlag'] ?? false,
         sellerName: doc.data()['sellerName'] ?? '',
+        sellerRole: doc.data()['sellerRole'] ?? '',
+        buyerRole: doc.data()['buyerRole'] ?? '',
       );
     }).toList();
   }

@@ -49,6 +49,12 @@ class UserTile extends StatelessWidget {
                     height: 10.0,
                   ),
                   Container(
+                    child: Text("Seller: " + user.buyerRole),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
                     child: int.parse(user.quan) > 0
                         ? Text("Status : Available")
                         : Text("Status : Currently Unavailable"),

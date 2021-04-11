@@ -12,7 +12,17 @@ class Addchain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Alert"),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          'Alert',
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Pompiere",
+              fontSize: 25,
+              letterSpacing: 2,
+              fontWeight: FontWeight.w800),
+        ),
+        backgroundColor: Colors.orange[400],
         centerTitle: true,
       ),
       body: Container(

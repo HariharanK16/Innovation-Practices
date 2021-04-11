@@ -16,19 +16,22 @@ class MyDisplay extends StatelessWidget {
     // print('abcd ${user.sellFlag}');
 
     return Scaffold(
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Color(0xFFddffc8),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'Product Detail',
           textAlign: TextAlign.center,
-          style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+          style: TextStyle(
+              color: Colors.black, fontFamily: "Pompiere", fontSize: 40),
         ),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Color(0xFFddffc8),
         elevation: 0.2,
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 700,
+          // height: 700,
+          constraints: BoxConstraints(maxHeight: double.infinity),
           width: 500,
           child: Card(
             child: Column(
@@ -284,6 +287,48 @@ class MyDisplay extends StatelessWidget {
                     height: 30.0,
                   ),
                 ],
+                if (user.quan == '0') ...[
+                  SizedBox(
+                    height: 12.0,
+                  ),
+                  Container(
+                    width: 300.0,
+                    padding: EdgeInsets.only(top: 3, left: 3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.black),
+                          top: BorderSide(color: Colors.black),
+                          left: BorderSide(color: Colors.black),
+                          right: BorderSide(color: Colors.black),
+                        )),
+                    child: MaterialButton(
+                      minWidth: double.infinity,
+                      height: 60,
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('TChain')
+                            .doc(user.pid)
+                            .delete();
+                      },
+                      color: Colors.redAccent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        "Delete Product",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                ],
+                SizedBox(
+                  height: 30.0,
+                ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.orange,
                   icon: Icon(Icons.qr_code),
@@ -301,6 +346,9 @@ class MyDisplay extends StatelessWidget {
                             builder: (context) => Scan(detail: user)));
                   },
                 ),
+                SizedBox(
+                  height: 20.0,
+                )
               ],
             ),
           ),

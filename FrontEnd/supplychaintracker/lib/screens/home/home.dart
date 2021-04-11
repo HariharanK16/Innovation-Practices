@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import 'package:supplychaintracker/screens/Viewproducts.dart';
 import 'package:supplychaintracker/screens/myProduct.dart';
 import 'package:supplychaintracker/services/auth.dart';
-import 'package:supplychaintracker/screens/navigation/transaction.dart';
+// import 'package:supplychaintracker/screens/navigation/transaction.dart';
 import 'package:supplychaintracker/screens/addproduct.dart';
 import 'package:provider/provider.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
@@ -84,29 +84,29 @@ class _HomeState extends State<Home> {
                 ),
                 onTap: () {},
               ),
-              if (ustype == "Farmer")
-                ListTile(
-                  title: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FlatButton.icon(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.add_sharp,
-                          color: Colors.grey[700],
-                          size: 40.0,
-                        ),
-                        label: Text(
-                          "Add Product",
-                          style: TextStyle(fontSize: 15.0, color: Colors.black),
-                        )),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Addproduct()));
-                  },
+              // if (ustype == "Farmer")
+              ListTile(
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FlatButton.icon(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.add_sharp,
+                        color: Colors.grey[700],
+                        size: 40.0,
+                      ),
+                      label: Text(
+                        "Add Product",
+                        style: TextStyle(fontSize: 15.0, color: Colors.black),
+                      )),
                 ),
+                onTap: () {
+                  Navigator.of(context).pop();
+
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Addproduct()));
+                },
+              ),
               ListTile(
                 title: Align(
                   alignment: Alignment.centerLeft,

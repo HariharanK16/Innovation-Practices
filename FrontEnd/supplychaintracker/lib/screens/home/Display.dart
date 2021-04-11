@@ -24,18 +24,21 @@ class _DisplayState extends State<Display> {
   Widget build(BuildContext context) {
     if (widget.request == 'Scan') {
       return Scaffold(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Color(0xFFddffc8),
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           title: Text(
             'Product Detail',
             textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+            style: TextStyle(
+                color: Colors.black, fontFamily: "Pompiere", fontSize: 40),
           ),
-          backgroundColor: Colors.lightGreen,
+          backgroundColor: Color(0xFFddffc8),
           elevation: 0.2,
         ),
         body: Container(
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
+          constraints: BoxConstraints(maxHeight: double.infinity),
           width: 500,
           child: Card(
             child: Column(
@@ -46,6 +49,7 @@ class _DisplayState extends State<Display> {
                 Container(
                   // width: 100,
                   // height: 100,
+                  constraints: BoxConstraints(maxHeight: double.infinity),
                   margin: EdgeInsets.all(10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
@@ -110,6 +114,35 @@ class _DisplayState extends State<Display> {
                       ),
                       Text(
                         "         " + widget.user.buyerName,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Seller : ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "                 " + widget.user.buyerRole,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             fontFamily: "Pompiere",
@@ -256,7 +289,7 @@ class _DisplayState extends State<Display> {
                   ),
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 30.0,
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.orange,
@@ -382,6 +415,35 @@ class _DisplayState extends State<Display> {
                         width: 30.0,
                       ),
                       Text(
+                        "Seller: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "         " + widget.user.buyerRole,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
                         "Quantity: ",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -509,7 +571,7 @@ class _DisplayState extends State<Display> {
                   ),
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 30.0,
                 ),
                 FloatingActionButton.extended(
                   backgroundColor: Colors.orange,
@@ -545,7 +607,7 @@ class _DisplayState extends State<Display> {
       else {
         setState(() {
           this.qr = qr;
-          print("This is qr $qr");
+          // print("This is qr $qr");
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => Userpage(qrc: qr)));
           return qr;

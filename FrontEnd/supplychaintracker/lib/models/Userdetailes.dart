@@ -16,6 +16,8 @@ class Userdetailes {
   final Timestamp timeStamp;
   final bool sellFlag;
   final String sellerName;
+  final String buyerRole;
+  final String sellerRole;
   Userdetailes(
       {this.pid,
       this.pname,
@@ -31,5 +33,7 @@ class Userdetailes {
       this.buyerPhone,
       this.timeStamp,
       this.sellFlag,
-      this.sellerName});
+      this.sellerName,
+      this.buyerRole,
+      this.sellerRole});
 }

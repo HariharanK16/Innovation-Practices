@@ -52,7 +52,7 @@ class _UserlistState extends State<Userlist> {
       int n = users.length;
       for (int i = 0; i < n; i++) {
         // print(users[i].sellFlag);
-        if (users[i].sellFlag == true) {
+        if (users[i].sellFlag == true && users[i].quan != '0') {
           // print(users[i].sellFlag);
           list.add(users[i]);
         }
