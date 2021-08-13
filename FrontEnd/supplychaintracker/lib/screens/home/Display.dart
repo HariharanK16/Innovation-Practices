@@ -1,92 +1,621 @@
 // import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:supplychaintracker/models/Userdetailes.dart';
-import 'package:supplychaintracker/services/auth.dart';
+// import 'package:supplychaintracker/services/auth.dart';
+import 'package:supplychaintracker/screens/home/Scanner.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:supplychaintracker/screens/middleMens/scanResult.dart';
+import 'package:flutter/services.dart';
 
-class Display extends StatelessWidget {
-  final AuthService _auth = AuthService();
+class Display extends StatefulWidget {
+  // final AuthService _auth = AuthService();
   final Userdetailes user;
-  Display({this.user});
+  final String request;
+  Display({this.user, this.request});
+
+  @override
+  _DisplayState createState() => _DisplayState();
+}
+
+class _DisplayState extends State<Display> {
+  String qr = 'Hello';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightGreen,
-      appBar: AppBar(
-        title: Text('Supply Chain Tracker'),
-        backgroundColor: Colors.white,
-        elevation: 0.2,
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign Out'),
-            onPressed: () async {
-              await _auth.signOut();
-            },
+    if (widget.request == 'Scan') {
+      return Scaffold(
+        backgroundColor: Color(0xFFddffc8),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'Product Detail',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.black, fontFamily: "Pompiere", fontSize: 40),
           ),
-        ],
-      ),
-      body: FlatButton(
-        onPressed: () {},
-        child: Container(
-          height: 450.0,
+          backgroundColor: Color(0xFFddffc8),
+          elevation: 0.2,
+        ),
+        body: Container(
+          // height: MediaQuery.of(context).size.height,
+          constraints: BoxConstraints(maxHeight: double.infinity),
+          width: 500,
           child: Card(
-            clipBehavior: Clip.antiAlias,
             child: Column(
-              children: [
-                SizedBox(
-                  height: 40.0,
-                ),
-                Text('Product Details',
-                    style: TextStyle(fontSize: 25, color: Colors.black)),
+              children: <Widget>[
                 SizedBox(
                   height: 20.0,
                 ),
                 Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            'http://images.unsplash.com/photo-1567306226416-28f0efdc88ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjA3fDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080'),
-                        fit: BoxFit.fill),
+                  // width: 100,
+                  // height: 100,
+                  constraints: BoxConstraints(maxHeight: double.infinity),
+                  margin: EdgeInsets.all(10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image(
+                        // fit: BoxFit.fill,
+                        width: 200.0,
+                        height: 200.0,
+                        image: widget.user.imgurl != ''
+                            ? NetworkImage(
+                                '${widget.user.imgurl}',
+                              )
+                            : NetworkImage(
+                                'https://cdn.dribbble.com/users/2066835/screenshots/11186147/media/616bc1e9a6ff48544b2342e5a6b85d01.jpg?compress=1&resize=400x300')),
                   ),
                 ),
-                ListTile(
-                  // leading: Icon(Icons.thumb_up),
-                  title: Text('Name: ${user.pname}'),
-                  subtitle: Text(
-                    'Quality: ${user.qual}',
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Product Name: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "      " + widget.user.pname,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
                   ),
                 ),
-                ListTile(
-                  // leading: Icon(Icons.thumb_up),
-                  title: Text('Description: ${user.pdesc}'),
-                  subtitle: Text(
-                    'Quality: ${user.qual}',
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Seller Name: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "         " + widget.user.buyerName,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(19.0),
-                //   child: Text(
-                //     'Description: ${user.pdesc}',
-                //     style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: Text(
-                //     'Quantity: ${user.quan}',
-                //     style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                //   ),
-                // ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Seller : ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "                 " + widget.user.buyerRole,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Quantity: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "             " +
+                            widget.user.quan +
+                            " " +
+                            widget.user.quant,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Quality: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "               " + widget.user.qual,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Phone Number: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        widget.user.buyerPhone != ''
+                            ? "     " + widget.user.buyerPhone
+                            : "     " + "Unavailble",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Description: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Container(
+                        width: 350,
+                        child: Text(
+                          "      " + widget.user.pdesc,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontFamily: "Pompiere",
+                              fontSize: 25.0,
+                              color: Colors.teal),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                FloatingActionButton.extended(
+                  backgroundColor: Colors.orange,
+                  icon: Icon(Icons.qr_code),
+                  label: Text(
+                    'Scan QR',
+                    style: TextStyle(
+                        fontFamily: "Pompiere",
+                        fontSize: 25.0,
+                        color: Colors.black),
+                  ),
+                  onPressed: () => scanQR(),
+                ),
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: Colors.lightGreen,
+        appBar: AppBar(
+          title: Text(
+            'Product Detail',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontFamily: "Pompiere", fontSize: 40),
+          ),
+          backgroundColor: Colors.lightGreen,
+          elevation: 0.2,
+        ),
+        body: Container(
+          height: 650,
+          width: 500,
+          child: Card(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
+                Container(
+                  // width: 100,
+                  // height: 100,
+                  margin: EdgeInsets.all(10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image(
+                        // fit: BoxFit.fill,
+                        width: 200.0,
+                        height: 200.0,
+                        image: widget.user.imgurl != ''
+                            ? NetworkImage(
+                                '${widget.user.imgurl}',
+                              )
+                            : NetworkImage(
+                                'https://cdn.dribbble.com/users/2066835/screenshots/11186147/media/616bc1e9a6ff48544b2342e5a6b85d01.jpg?compress=1&resize=400x300')),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Product Name: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "      " + widget.user.pname,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Seller Name: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "         " + widget.user.buyerName,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Seller: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "         " + widget.user.buyerRole,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Quantity: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "             " +
+                            widget.user.quan +
+                            " " +
+                            widget.user.quant,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Quality: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        "               " + widget.user.qual,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Phone Number: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                      Text(
+                        widget.user.buyerPhone != ''
+                            ? "     " + widget.user.buyerPhone
+                            : "     " + "Unavailble",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontSize: 25.0,
+                            color: Colors.teal),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Text(
+                        "Description: ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontFamily: "Pompiere",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Colors.amberAccent),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 30.0,
+                      ),
+                      Container(
+                        width: 350,
+                        child: Text(
+                          "      " + widget.user.pdesc,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontFamily: "Pompiere",
+                              fontSize: 25.0,
+                              color: Colors.teal),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                FloatingActionButton.extended(
+                  backgroundColor: Colors.orange,
+                  icon: Icon(Icons.qr_code),
+                  label: Text(
+                    'Get QR',
+                    style: TextStyle(
+                        fontFamily: "Pompiere",
+                        fontSize: 25.0,
+                        color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Scan(detail: widget.user)));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> scanQR() async {
+    try {
+      final qr = await FlutterBarcodeScanner.scanBarcode(
+          '#f21233', 'Cancel', true, ScanMode.QR);
+      if (!mounted)
+        return;
+      else {
+        setState(() {
+          this.qr = qr;
+          // print("This is qr $qr");
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => Userpage(qrc: qr)));
+          return qr;
+        });
+      }
+      // print("This is qr $qr");
+    } on PlatformException {
+      qr = "Sorry Some error has occured";
+    }
   }
 }

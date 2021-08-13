@@ -12,13 +12,14 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.  
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserValue>.value(
       value: AuthService().user,
       child: MaterialApp(
         home: Wrapper(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
